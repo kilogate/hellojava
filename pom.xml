@@ -12,6 +12,7 @@
         <module>hello-java</module>
         <module>hello-algorithm</module>
         <module>hello-designpattern</module>
+        <module>hello-web</module>
     </modules>
 
 
