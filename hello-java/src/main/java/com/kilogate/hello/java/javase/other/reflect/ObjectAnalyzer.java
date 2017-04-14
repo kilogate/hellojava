@@ -1,4 +1,4 @@
-package com.kilogate.hello.java.javase.core.oop.clazz.reflect;
+package com.kilogate.hello.java.javase.other.reflect;
 
 import java.lang.reflect.AccessibleObject;
 import java.lang.reflect.Array;

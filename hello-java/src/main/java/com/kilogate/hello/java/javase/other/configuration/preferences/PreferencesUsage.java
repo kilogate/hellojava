@@ -1,4 +1,4 @@
-package com.kilogate.hello.java.javase.tools.configuration.preferences;
+package com.kilogate.hello.java.javase.other.configuration.preferences;
 
 import java.io.IOException;
 import java.util.prefs.BackingStoreException;
@@ -6,7 +6,7 @@ import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
 
 /**
- * 中心知识库用法
+ * 首选项
  *
  * @author kilogate
  * @create 2017/3/29 19:25
