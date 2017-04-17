@@ -11,7 +11,7 @@ import java.util.Properties;
  * @create 2017/3/29 17:47
  **/
 public class ProperitiesUsage {
-    public static void main(String[] args) throws IOException {
+    private void testProperties() throws IOException {
         // 一、创建属性映射
         Properties properties = new Properties();
         properties.put("name", "Lask");
@@ -56,6 +56,15 @@ public class ProperitiesUsage {
         // 六、清除属性映射
         defaultProperities.clear();
         mainProperities.clear();
+    }
 
+    public static void main(String[] args) throws IOException {
+        Properties properties = System.getProperties();
+        Enumeration<?> propertyNames = properties.propertyNames();
+        while (propertyNames.hasMoreElements()) {
+            Object key = propertyNames.nextElement();
+            Object value = properties.get(key);
+            System.out.println(key + "=" + value);
+        }
     }
 }

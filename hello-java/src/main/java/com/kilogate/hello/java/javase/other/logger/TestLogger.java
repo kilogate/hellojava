@@ -11,26 +11,25 @@ import java.util.logging.Logger;
  * @create 2017/4/6 23:24
  **/
 public class TestLogger {
-    private Logger logger = Logger.getLogger(this.getClass().getName());
-
     /**
      * 测试日志打印
      */
     public String testLog(String param) {
-        // 设置打印所有日志级别
-        logger.setLevel(Level.ALL);
+        System.setProperty("java.util.logging.config.file", "logging.properites");
+
+        Logger logger = Logger.getLogger(this.getClass().getName());
 
         // 跟踪执行流
         logger.entering(this.getClass().getName(), "testLog", new Object[]{param});
 
         // 测试打印
-//        logger.info("测试 logger.info");
-//        logger.config("测试 logger.config");
+        logger.info("测试 logger.info");
+        logger.config("测试 logger.config");
 
         // 测试指定级别的打印
-//        logger.log(Level.SEVERE, "测试指定 SEVERE 级别的日志");
-//        logger.log(Level.WARNING, "测试指定 WARNING 级别的日志");
-//        logger.log(Level.FINEST, "测试指定 FINEST 级别的日志"); // 为什么打不出来
+        logger.log(Level.SEVERE, "测试指定 SEVERE 级别的日志");
+        logger.log(Level.WARNING, "测试指定 WARNING 级别的日志");
+        logger.log(Level.FINEST, "测试指定 FINEST 级别的日志"); // 为什么打不出来
 
         IOException ioException = new IOException("生成IO异常");
         logger.throwing(this.getClass().getName(), "testLog", ioException);
@@ -45,7 +44,7 @@ public class TestLogger {
     }
 
     public static void main(String[] args) {
-//        Logger.getGlobal().info("测试默认日志记录器");
+        Logger.getGlobal().info("测试默认日志记录器");
 
         TestLogger test = new TestLogger();
         test.testLog("Lask");
