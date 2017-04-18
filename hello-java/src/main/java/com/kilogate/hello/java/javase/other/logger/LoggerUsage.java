@@ -1,8 +1,8 @@
 package com.kilogate.hello.java.javase.other.logger;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.io.InputStream;
+import java.util.logging.*;
 
 /**
  * 测试日志
@@ -10,14 +10,23 @@ import java.util.logging.Logger;
  * @author fengquanwei
  * @create 2017/4/6 23:24
  **/
-public class TestLogger {
+public class LoggerUsage {
     /**
      * 测试日志打印
      */
-    public String testLog(String param) {
-        System.setProperty("java.util.logging.config.file", "logging.properites");
+    public String testLog(String param) throws IOException {
+        // 重新读取配置文件
+        InputStream configuration = ClassLoader.getSystemResourceAsStream("logging.properties");
+        LogManager logManager = LogManager.getLogManager(); // 获取日志管理器
+        logManager.readConfiguration(configuration);
 
+        // 获取日志记录器
         Logger logger = Logger.getLogger(this.getClass().getName());
+
+        // 添加日志处理器
+        FileHandler fileHandler = new FileHandler("/opt/log/tmp%g.log", true);
+        fileHandler.setFormatter(new SimpleFormatter()); // 设置日志处理器的日志格式化器
+        logger.addHandler(fileHandler);
 
         // 跟踪执行流
         logger.entering(this.getClass().getName(), "testLog", new Object[]{param});
@@ -43,11 +52,21 @@ public class TestLogger {
         return result;
     }
 
-    public static void main(String[] args) {
+    /**
+     * 测试日志本地化
+     */
+    public void testocalization(){
+        Logger logger = Logger.getLogger("test.local", "local");
+
+        logger.log(Level.INFO, "sayHi", "Lask");
+    }
+
+    public static void main(String[] args) throws IOException {
         Logger.getGlobal().info("测试默认日志记录器");
 
-        TestLogger test = new TestLogger();
-        test.testLog("Lask");
+        LoggerUsage test = new LoggerUsage();
+//        test.testLog("Lask");
+        test.testocalization();
 
     }
 }

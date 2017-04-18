@@ -8,7 +8,7 @@ import java.util.Scanner;
  * @author fengquanwei
  * @create 2017/4/6 20:30
  **/
-public class TestStackTrace {
+public class StackTraceUsage {
     // 阶乘堆栈信息打印
     public static int factorial(int n) {
         System.out.println("factorial(" + n + "):");
