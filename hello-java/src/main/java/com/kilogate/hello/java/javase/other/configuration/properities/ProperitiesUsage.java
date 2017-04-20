@@ -1,6 +1,9 @@
 package com.kilogate.hello.java.javase.other.configuration.properities;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Properties;
 
@@ -34,10 +37,6 @@ public class ProperitiesUsage {
             System.out.println(key + "=" + value);
         }
 
-        InputStream stream = new ProperitiesUsage().getClass().getResourceAsStream("/program.properties");
-        Properties newNewProperties = new Properties();
-        newNewProperties.load(stream);
-
         // 四、系统配置
         Properties systemProperities = System.getProperties();
         String userHome = systemProperities.getProperty("user.home", "defaultValue"); // 获取属性并设置默认值
@@ -59,6 +58,8 @@ public class ProperitiesUsage {
     }
 
     public static void main(String[] args) throws IOException {
+        new ProperitiesUsage().testProperties();
+
         Properties properties = System.getProperties();
         Enumeration<?> propertyNames = properties.propertyNames();
         while (propertyNames.hasMoreElements()) {

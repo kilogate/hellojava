@@ -56,7 +56,7 @@ public class LoggerUsage {
      * 测试日志本地化
      */
     public void testLocalization() {
-        Logger logger = Logger.getLogger("test.local", "local");
+        Logger logger = Logger.getLogger("testLocalization", "logger_resource");
 
         logger.log(Level.INFO, "sayHi", "Lask");
     }
@@ -69,7 +69,7 @@ public class LoggerUsage {
         LogManager logManager = LogManager.getLogManager(); // 获取日志管理器
         logManager.readConfiguration(configuration);
 
-        Logger logger = Logger.getLogger("test");
+        Logger logger = Logger.getLogger("testFileHandler");
 
         logger.setUseParentHandlers(false);
 
@@ -84,7 +84,7 @@ public class LoggerUsage {
     /**
      * 尝试在程序启动时进行日志配置
      */
-    public void testInitLogConfig(){
+    public void testInitLogConfig() {
         if (System.getProperty("java.util.logging.config.class") == null
                 && System.getProperty("java.util.logging.config.file") == null) {
             try {
@@ -103,7 +103,7 @@ public class LoggerUsage {
             }
         }
 
-        Logger logger = Logger.getLogger("test");
+        Logger logger = Logger.getLogger("testInitLogConfig");
         for (int i = 0; i < 2000; i++) {
             logger.info(i + ": Test Limit.");
             logger.fine(i + ": Test Limit.");
@@ -116,10 +116,9 @@ public class LoggerUsage {
 
         LoggerUsage test = new LoggerUsage();
 //        test.testLog("Lask");
-//        test.testLocalization();
+        test.testLocalization();
 //        test.testFileHandler();
-        test.testInitLogConfig();
-
+//        test.testInitLogConfig();
 
 
     }
