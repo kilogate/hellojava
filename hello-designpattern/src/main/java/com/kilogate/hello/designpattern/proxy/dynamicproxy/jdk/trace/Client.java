@@ -18,7 +18,7 @@ public class Client {
         for (int i = 0; i < elements.length; i++) {
             Integer value = i + 1;
             InvocationHandler handler = new TraceHandler(value);
-            // 构造 Integer 对象的代理对象：使用默认构造器，实现 Comparable 接口，使用跟踪方法调用的调用处理器
+            // 构造 Integer 对象的代理对象：使用默认加载器，实现 Comparable 接口，使用跟踪方法调用的调用处理器
             Object proxy = Proxy.newProxyInstance(null, new Class[]{Comparable.class}, handler);
             elements[i] = proxy;
         }

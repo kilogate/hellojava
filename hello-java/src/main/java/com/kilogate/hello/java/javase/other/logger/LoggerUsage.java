@@ -55,10 +55,60 @@ public class LoggerUsage {
     /**
      * 测试日志本地化
      */
-    public void testocalization(){
+    public void testLocalization() {
         Logger logger = Logger.getLogger("test.local", "local");
 
         logger.log(Level.INFO, "sayHi", "Lask");
+    }
+
+    /**
+     * 测试日志处理器之文件处理器
+     */
+    public void testFileHandler() throws IOException {
+        InputStream configuration = ClassLoader.getSystemResourceAsStream("logging.properties");
+        LogManager logManager = LogManager.getLogManager(); // 获取日志管理器
+        logManager.readConfiguration(configuration);
+
+        Logger logger = Logger.getLogger("test");
+
+        logger.setUseParentHandlers(false);
+
+        logger.addHandler(new ConsoleHandler());
+        logger.addHandler(new FileHandler());
+
+        for (int i = 0; i < 2000; i++) {
+            logger.info(i + ": Test Limit.");
+        }
+    }
+
+    /**
+     * 尝试在程序启动时进行日志配置
+     */
+    public void testInitLogConfig(){
+        if (System.getProperty("java.util.logging.config.class") == null
+                && System.getProperty("java.util.logging.config.file") == null) {
+            try {
+                // 设置根日志记录器的记录级别为 ALL
+                Logger.getLogger("").setLevel(Level.ALL);
+
+                // 构造日志文件处理器，FileHandler 默认日志处理级别为 ALL
+                final int LOG_RATATION_COUNT = 30;
+                final int LOG_LIMIT_COUNT = 50000;
+                FileHandler fileHandler = new FileHandler("%h/hello.log", LOG_LIMIT_COUNT, LOG_RATATION_COUNT);
+                fileHandler.setFormatter(new SimpleFormatter());
+
+                Logger.getLogger("").addHandler(fileHandler);
+            } catch (IOException e) {
+
+            }
+        }
+
+        Logger logger = Logger.getLogger("test");
+        for (int i = 0; i < 2000; i++) {
+            logger.info(i + ": Test Limit.");
+            logger.fine(i + ": Test Limit.");
+            logger.finest(i + ": Test Limit.");
+        }
     }
 
     public static void main(String[] args) throws IOException {
@@ -66,7 +116,11 @@ public class LoggerUsage {
 
         LoggerUsage test = new LoggerUsage();
 //        test.testLog("Lask");
-        test.testocalization();
+//        test.testLocalization();
+//        test.testFileHandler();
+        test.testInitLogConfig();
+
+
 
     }
 }

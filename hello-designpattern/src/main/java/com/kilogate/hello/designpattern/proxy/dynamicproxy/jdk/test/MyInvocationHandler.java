@@ -19,12 +19,6 @@ public class MyInvocationHandler implements InvocationHandler {
 
     /**
      * 获取代理对象
-     *
-     * @param
-     * @return 代理对象
-     * @exception
-     * @author kilogate
-     * @date 2017/3/28 16:24
      */
     public Object getProxy() {
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -32,11 +26,16 @@ public class MyInvocationHandler implements InvocationHandler {
         return Proxy.newProxyInstance(loader, interfaces, this);
     }
 
+    /**
+     * 代理方法调用
+     */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        System.out.println("begin");
+        System.out.println("-------------------- before --------------------");
+
         Object result = method.invoke(this.target, args);
-        System.out.println("end");
+
+        System.out.println("-------------------- after  --------------------");
 
         return result;
     }
