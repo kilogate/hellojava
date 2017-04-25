@@ -1,5 +1,6 @@
 package com.kilogate.hello.java.javase.other.exception;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Scanner;
 
 /**
@@ -25,6 +26,19 @@ public class StackTraceUsage {
         }
         System.out.println("return " + r);
         return r;
+    }
+
+    /**
+     * 测试堆栈跟踪
+     */
+    public void testStackTrace(){
+        // 打印当前位置堆栈跟踪
+        Thread.dumpStack();
+
+        Throwable throwable = new Throwable();
+        throwable.printStackTrace(System.out);
+
+
     }
 
     public static void main(String[] args) {
