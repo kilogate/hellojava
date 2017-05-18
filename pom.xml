@@ -13,6 +13,7 @@
         <module>hello-algorithm</module>
         <module>hello-designpattern</module>
         <module>hello-web</module>
+        <module>hello-tomcat</module>
     </modules>
 
     <build>
