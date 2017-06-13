@@ -129,6 +129,10 @@ public class HelloWorld implements Cloneable {
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
+
+        // 类型信息
+        System.out.println(Integer.class.getName());
+        System.out.println(Integer[].class.getName());
     }
 
     // ============================== getters and setters ==============================
