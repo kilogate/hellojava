@@ -3,7 +3,7 @@ package com.kilogate.hello.java.javase.jdkapi.exception;
 import java.util.Scanner;
 
 /**
- * 测试堆栈跟踪
+ * 堆栈跟踪用法
  *
  * @author fengquanwei
  * @create 2017/4/6 20:30
@@ -30,14 +30,12 @@ public class StackTraceUsage {
     /**
      * 测试堆栈跟踪
      */
-    public void testStackTrace(){
+    public static void testStackTrace(){
         // 打印当前位置堆栈跟踪
         Thread.dumpStack();
 
         Throwable throwable = new Throwable();
         throwable.printStackTrace(System.out);
-
-
     }
 
     public static void main(String[] args) {
@@ -45,5 +43,7 @@ public class StackTraceUsage {
         System.out.print("Enter n: ");
         int n = scanner.nextInt();
         factorial(n);
+
+//        testStackTrace();
     }
 }

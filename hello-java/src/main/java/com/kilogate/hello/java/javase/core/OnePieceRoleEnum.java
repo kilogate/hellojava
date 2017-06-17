@@ -34,4 +34,36 @@ public enum OnePieceRoleEnum {
         OnePieceRoleEnum luffy = Enum.valueOf(OnePieceRoleEnum.class, "LUFFY");
         System.out.println(OnePieceRoleEnum.LUFFY.ordinal());
     }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getJapaneseName() {
+        return japaneseName;
+    }
+
+    public void setJapaneseName(String japaneseName) {
+        this.japaneseName = japaneseName;
+    }
+
+    public String getChineseName() {
+        return chineseName;
+    }
+
+    public void setChineseName(String chineseName) {
+        this.chineseName = chineseName;
+    }
+
+    public String getEnglishhName() {
+        return englishhName;
+    }
+
+    public void setEnglishhName(String englishhName) {
+        this.englishhName = englishhName;
+    }
 }

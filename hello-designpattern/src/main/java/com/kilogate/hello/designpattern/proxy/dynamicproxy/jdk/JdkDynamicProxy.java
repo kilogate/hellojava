@@ -41,16 +41,16 @@ public class JdkDynamicProxy {
     }
 
     public static void main(String[] args) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
-        // 生成 $Proxy0 的 class 文件
-        System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles", "true");
-        // 获取动态代理类
-        Class<?> proxyClass = Proxy.getProxyClass(MyService.class.getClassLoader(), MyService.class);
-        // 获取动态代理类的构造函数
-        Constructor<?> proxyClassConstructor = proxyClass.getConstructor(InvocationHandler.class);
-        // 创建动态代理类实例
-        MyService proxy = (MyService) proxyClassConstructor.newInstance(new MyInvocationHandler(new MyServiceImpl()));
-        // 通过代理类调用目标方法
-        proxy.myMethod();
+//        // 生成 $Proxy0 的 class 文件
+//        System.getProperties().put("sun.misc.ProxyGenerator.saveGeneratedFiles", "true");
+//        // 获取动态代理类
+//        Class<?> proxyClass = Proxy.getProxyClass(MyService.class.getClassLoader(), MyService.class);
+//        // 获取动态代理类的构造函数
+//        Constructor<?> proxyClassConstructor = proxyClass.getConstructor(InvocationHandler.class);
+//        // 创建动态代理类实例
+//        MyService proxy = (MyService) proxyClassConstructor.newInstance(new MyInvocationHandler(new MyServiceImpl()));
+//        // 通过代理类调用目标方法
+//        proxy.myMethod();
 
         // 保存生成的代理类文件到本地
         byte[] classBytes = ProxyGenerator.generateProxyClass("$Proxy1", MyServiceImpl.class.getInterfaces());

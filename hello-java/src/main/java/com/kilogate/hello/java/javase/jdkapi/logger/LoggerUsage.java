@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.logging.*;
 
 /**
- * 测试日志
+ * 日志系统用法
  *
  * @author fengquanwei
  * @create 2017/4/6 23:24
@@ -24,7 +24,7 @@ public class LoggerUsage {
         Logger logger = Logger.getLogger(this.getClass().getName());
 
         // 添加日志处理器
-        FileHandler fileHandler = new FileHandler("/opt/log/tmp%g.log", true);
+        FileHandler fileHandler = new FileHandler("/opt/log/hello/tmp%g.log", true);
         fileHandler.setFormatter(new SimpleFormatter()); // 设置日志处理器的日志格式化器
         logger.addHandler(fileHandler);
 
@@ -62,14 +62,14 @@ public class LoggerUsage {
     }
 
     /**
-     * 测试日志处理器之文件处理器
+     * 测试文件处理器
      */
     public void testFileHandler() throws IOException {
         InputStream configuration = ClassLoader.getSystemResourceAsStream("logging.properties");
         LogManager logManager = LogManager.getLogManager(); // 获取日志管理器
         logManager.readConfiguration(configuration);
 
-        Logger logger = Logger.getLogger("testFileHandler");
+        Logger logger = Logger.getLogger("FileHandlerLogger");
 
         logger.setUseParentHandlers(false);
 
@@ -94,7 +94,7 @@ public class LoggerUsage {
                 // 构造日志文件处理器，FileHandler 默认日志处理级别为 ALL
                 final int LOG_RATATION_COUNT = 30;
                 final int LOG_LIMIT_COUNT = 50000;
-                FileHandler fileHandler = new FileHandler("%h/hello.log", LOG_LIMIT_COUNT, LOG_RATATION_COUNT);
+                FileHandler fileHandler = new FileHandler("/opt/log/hello/hello.log", LOG_LIMIT_COUNT, LOG_RATATION_COUNT);
                 fileHandler.setFormatter(new SimpleFormatter());
 
                 Logger.getLogger("").addHandler(fileHandler);
@@ -112,14 +112,13 @@ public class LoggerUsage {
     }
 
     public static void main(String[] args) throws IOException {
-        Logger.getGlobal().info("测试默认日志记录器");
+//        Logger.getGlobal().info("测试默认日志记录器");
 
         LoggerUsage test = new LoggerUsage();
 //        test.testLog("Lask");
-        test.testLocalization();
+//        test.testLocalization();
 //        test.testFileHandler();
-//        test.testInitLogConfig();
-
+        test.testInitLogConfig();
 
     }
 }

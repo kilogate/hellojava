@@ -3,12 +3,12 @@ package com.kilogate.hello.java.javase.jdkapi.tool;
 import java.util.Arrays;
 
 /**
- * Arrays 工具类
+ * Arrays 工具类用法
  *
  * @author fengquanwei
  * @create 2017/6/12 20:09
  **/
-public class ArraysTool {
+public class ArraysUsage {
     public static void main(String[] args) {
         int[][] twoDimensionalArray = new int[][]{{1, 3, 2}, {6, 5, 4}, {7, 8}};
         int[] a = new int[]{3, 2, 1};
