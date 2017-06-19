@@ -1,4 +1,4 @@
-package com.kilogate.hello.java.javase.jdkapi.io.configuration.properities;
+package com.kilogate.hello.java.javase.jdkapi.io.config.properities;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,7 +8,7 @@ import java.util.Enumeration;
 import java.util.Properties;
 
 /**
- * 属性映射
+ * 属性映射用法
  *
  * @author kilogate
  * @create 2017/3/29 17:47

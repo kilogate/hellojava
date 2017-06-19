@@ -1,4 +1,4 @@
-package com.kilogate.hello.java.javase.jdkapi.io.configuration.preferences;
+package com.kilogate.hello.java.javase.jdkapi.io.config.preferences;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,10 +21,10 @@ public class PreferencesUsage {
         // 用户首选项根节点
         Preferences userRoot = Preferences.userRoot();
 
-        Preferences systemNode = systemRoot.node("com.kilogate.hello.java.javase.jdkapi.io.configuration.preferences.PreferencesUsage");
-        Preferences userNode = userRoot.node("com.kilogate.hello.java.javase.jdkapi.io.configuration.preferences.PreferencesUsage");
+        Preferences systemNode = systemRoot.node("com.kilogate.hello.java.javase.jdkapi.io.config.preferences.PreferencesUsage");
+        Preferences userNode = userRoot.node("com.kilogate.hello.java.javase.jdkapi.io.config.preferences.PreferencesUsage");
 
-        Class<?> clazz = Class.forName("com.kilogate.hello.java.javase.jdkapi.io.configuration.preferences.PreferencesUsage");
+        Class<?> clazz = Class.forName("com.kilogate.hello.java.javase.jdkapi.io.config.preferences.PreferencesUsage");
         Preferences userNodeForPackage = Preferences.userNodeForPackage(clazz);
         Preferences systemNodeForPackage = Preferences.systemNodeForPackage(clazz);
 
