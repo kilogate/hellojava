@@ -1,8 +1,9 @@
 ### Project Modules
-- java
-- web
 - algorithm
 - design pattern
+- java
+- tomcat
+- web
 
 ### Development Environment
 - OS: macOS Sierra

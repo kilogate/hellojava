@@ -1,4 +1,4 @@
-package com.kilogate.hello.java.javase.jdkapi.io.config.properities;
+package com.kilogate.hello.java.javase.jdkapi.io.config;
 
 import java.io.File;
 import java.io.FileInputStream;

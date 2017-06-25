@@ -44,6 +44,18 @@ public class PrimitiveType {
         String hexString = Integer.toHexString(a);
         System.out.println(hexString);
 
+        // 浮点数的二进制表示
+        // float 符号位：1，阶码：8，尾数：23，阶码 = 指数 + 127
+        // 3.125 转换为二进制：11.001 = 1.1001 * 2^1
+        // 符号位：0，阶码：1 + 127 = 128 = 1000000b，尾数：1001
+        // 0100 0000 0100 1000 0000 0000 0000 0000
+        System.out.println(Integer.toBinaryString(Float.floatToIntBits(3.125f)));
+        // double 符号位：1，阶码：11，尾数：52，阶码 = 指数 + 1023
+        // 7000 转换为二进制：1101101011000 = 1.101101011 * 2^12
+        // 符号位：0，阶码：12 + 1023 = 1035 = 100 0000 1011，尾数：101101011
+        // 0100 0000 1011 1011 0101 1000 0000 0000 0000 0000 0000 0000 0000 0000 0000 0000
+        System.out.println(Long.toBinaryString(Double.doubleToLongBits(7000D)));
+
         // ============================== 转义字符 ==============================
         System.out.println("退格\b退格");
         System.out.println("制表\t制表");
