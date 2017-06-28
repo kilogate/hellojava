@@ -1,15 +1,13 @@
 package com.kilogate.hello.java.javase.jdkapi.io.stream;
 
-import com.kilogate.hello.java.javase.other.Employee;
-import com.kilogate.hello.java.javase.other.ExternalEmployee;
-import com.kilogate.hello.java.javase.other.Manager;
-import com.kilogate.hello.java.javase.other.SerialEmployee;
+import com.kilogate.hello.java.javase.other.*;
 
 import java.io.*;
 import java.util.Arrays;
 import java.util.Date;
 
 /**
+ * 对象序列化
  * ObjectOutputStream and ObjectInputStream
  *
  * @author fengquanwei
@@ -58,6 +56,23 @@ public class ObjectOutputStreamAndObjectInputStream4Object {
             System.out.println(newExternalEmployee);
         }
 
-    }
+        // 测试唯一对象的序列化
+        try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("/tmp/HORIZONTAL.txt"))) {
+            out.writeObject(Orientation.HORIZONTAL);
+        }
 
+        try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("/tmp/HORIZONTAL.txt"))) {
+            Orientation horizontal = (Orientation) in.readObject();
+            System.out.println(horizontal == Orientation.HORIZONTAL);
+        }
+
+        // 测试使用序列化克隆对象
+        SerialCloneEmployee serialCloneEmployee = new SerialCloneEmployee("Lask", 40000, new Date());
+        try {
+            Object clone = serialCloneEmployee.clone();
+            System.out.println(clone);
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+    }
 }

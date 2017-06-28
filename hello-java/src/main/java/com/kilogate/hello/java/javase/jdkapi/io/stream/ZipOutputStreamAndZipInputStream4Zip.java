@@ -1,6 +1,7 @@
 package com.kilogate.hello.java.javase.jdkapi.io.stream;
 
 import java.io.*;
+import java.nio.file.Path;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -17,10 +18,11 @@ public class ZipOutputStreamAndZipInputStream4Zip {
     public static void main(String[] args) throws Exception {
         File srcFile = new File("/Users/kilogate/Documents/Tmp");
         File zipFile = new File("/Users/kilogate/Downloads/out.zip");
-        ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));
-        zip(srcFile, zipFile, out, "");
-        out.close();
 
+        // 压缩测试
+        zip(srcFile, zipFile);
+
+        // 解压测试
         unzip(zipFile, "/Users/kilogate/Downloads/unzip");
 //        unzip2(zipFile, "/Users/kilogate/Downloads/unzip");
 
@@ -30,10 +32,21 @@ public class ZipOutputStreamAndZipInputStream4Zip {
      * 压缩文件或文件夹
      * srcFile 要压缩的文件或文件夹
      * zipFile 压缩文件
-     * out 压缩输出流
-     * entryPrefix 项前缀
      */
-    private static void zip(File srcFile, File zipFile, ZipOutputStream out, String entryPrefix) throws IOException {
+    public static void zip(File srcFile, File zipFile) throws IOException {
+        try (ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFile));) {
+            zip(srcFile, zipFile, out, srcFile.toPath());
+        }
+    }
+
+    /**
+     * 压缩文件或文件夹
+     * srcFile 要压缩的文件或文件夹
+     * zipFile 压缩文件
+     * out 压缩输出流
+     * basePath 压缩文件的基准路径
+     */
+    private static void zip(File srcFile, File zipFile, ZipOutputStream out, Path basePath) throws IOException {
         if (srcFile == null || zipFile == null) {
             return;
         }
@@ -43,7 +56,8 @@ public class ZipOutputStreamAndZipInputStream4Zip {
             int count, bufferLength = 1024;
             byte[] buffer = new byte[bufferLength];
 
-            out.putNextEntry(new ZipEntry(entryPrefix + File.separator + srcFile.getName()));
+            String entryName = basePath.getFileName() + File.separator + basePath.relativize(srcFile.toPath());
+            out.putNextEntry(new ZipEntry(entryName));
             BufferedInputStream in = new BufferedInputStream(new FileInputStream(srcFile));
             while ((count = in.read(buffer, 0, bufferLength)) != -1) {
                 out.write(buffer, 0, count);
@@ -53,23 +67,23 @@ public class ZipOutputStreamAndZipInputStream4Zip {
         } else { // 如果是目录，则压缩整个目录
             File[] files = srcFile.listFiles();
             for (File file : files) {
-                zip(file, zipFile, out, entryPrefix + File.separator + srcFile.getName());
+                zip(file, zipFile, out, basePath);
             }
         }
     }
 
     /**
      * 解压缩 ZIP 文件（使用 ZipFile）
-     * file 待解压缩的 ZIP 文件
+     * zipFile 待解压缩的 ZIP 文件
      * destDir 解压到的目录
      */
-    public static void unzip(File file, String destDir) throws IOException {
-        if (file == null || destDir == null || destDir.equals("")) {
+    public static void unzip(File zipFile, String destDir) throws IOException {
+        if (zipFile == null || destDir == null || destDir.equals("")) {
             return;
         }
 
-        ZipFile zipFile = new ZipFile(file);
-        Enumeration<? extends ZipEntry> entries = zipFile.entries();
+        ZipFile zip = new ZipFile(zipFile);
+        Enumeration<? extends ZipEntry> entries = zip.entries();
 
         int count, bufferLength = 1024;
         byte data[] = new byte[bufferLength];
@@ -92,7 +106,7 @@ public class ZipOutputStreamAndZipInputStream4Zip {
                 }
             }
 
-            in = new BufferedInputStream(zipFile.getInputStream(zipEntry));
+            in = new BufferedInputStream(zip.getInputStream(zipEntry));
             out = new BufferedOutputStream(new FileOutputStream(entryFilename));
             while ((count = in.read(data, 0, bufferLength)) != -1) {
                 out.write(data, 0, count);
@@ -102,20 +116,20 @@ public class ZipOutputStreamAndZipInputStream4Zip {
             in.close();
         }
 
-        zipFile.close();
+        zip.close();
     }
 
     /**
      * 解压缩 ZIP 文件（使用 ZipInputStream）
-     * file 待解压缩的 ZIP 文件
+     * zipFile 待解压缩的 ZIP 文件
      * destDir 解压到的目录
      */
-    public static void unzip2(File file, String destDir) throws IOException {
-        if (file == null || destDir == null || destDir.equals("")) {
+    public static void unzip2(File zipFile, String destDir) throws IOException {
+        if (zipFile == null || destDir == null || destDir.equals("")) {
             return;
         }
 
-        ZipInputStream in = new ZipInputStream(new FileInputStream(file));
+        ZipInputStream in = new ZipInputStream(new FileInputStream(zipFile));
         ZipEntry zipEntry = null;
 
         int count, bufferLength = 1024;
