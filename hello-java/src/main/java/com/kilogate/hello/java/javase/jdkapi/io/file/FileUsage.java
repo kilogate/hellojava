@@ -2,6 +2,7 @@ package com.kilogate.hello.java.javase.jdkapi.io.file;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.PosixFileAttributes;
@@ -26,7 +27,7 @@ public class FileUsage {
         lines.add("低头思故乡。");
 
         // 写字符串列表到文件
-        Files.write(filePath, lines, Charset.forName("UTF-8"));
+        Files.write(filePath, lines, StandardCharsets.UTF_8);
 
         // 从文件读字符串列表
         List<String> strings = Files.readAllLines(filePath, Charset.forName("UTF-8"));
