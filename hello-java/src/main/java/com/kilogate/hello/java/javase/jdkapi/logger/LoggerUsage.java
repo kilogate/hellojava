@@ -5,16 +5,16 @@ import java.io.InputStream;
 import java.util.logging.*;
 
 /**
- * 日志系统用法
+ * 日志系统用法（java.util.logging）
  *
  * @author fengquanwei
  * @create 2017/4/6 23:24
  **/
 public class LoggerUsage {
     /**
-     * 测试日志打印
+     * 测试自定义配置
      */
-    public String testLog(String param) throws IOException {
+    public String testCustomLog(String param) throws IOException {
         // 重新读取配置文件
         InputStream configuration = ClassLoader.getSystemResourceAsStream("logging.properties");
         LogManager logManager = LogManager.getLogManager(); // 获取日志管理器
@@ -29,7 +29,7 @@ public class LoggerUsage {
         logger.addHandler(fileHandler);
 
         // 跟踪执行流
-        logger.entering(this.getClass().getName(), "testLog", new Object[]{param});
+        logger.entering(this.getClass().getName(), "testCustomLog", new Object[]{param});
 
         // 测试打印
         logger.info("测试 logger.info");
@@ -41,13 +41,13 @@ public class LoggerUsage {
         logger.log(Level.FINEST, "测试指定 FINEST 级别的日志"); // 为什么打不出来
 
         IOException ioException = new IOException("生成IO异常");
-        logger.throwing(this.getClass().getName(), "testLog", ioException);
+        logger.throwing(this.getClass().getName(), "testCustomLog", ioException);
         logger.log(Level.WARNING, "产生异常了", ioException);
 
         String result = "Hello, " + param;
 
         // 跟踪执行流
-        logger.exiting(this.getClass().getName(), "testLog", result);
+        logger.exiting(this.getClass().getName(), "testCustomLog", result);
 
         return result;
     }
@@ -57,7 +57,6 @@ public class LoggerUsage {
      */
     public void testLocalization() {
         Logger logger = Logger.getLogger("testLocalization", "logger_resource");
-
         logger.log(Level.INFO, "sayHi", "Lask");
     }
 
@@ -114,11 +113,17 @@ public class LoggerUsage {
     public static void main(String[] args) throws IOException {
 //        Logger.getGlobal().info("测试默认日志记录器");
 
+        // 测试默认日志配置
+        Logger logger = Logger.getLogger(LoggerUsage.class.getName());
+        logger.info("info test");
+        logger.fine("fine test");
+        logger.severe("severe test");
+
         LoggerUsage test = new LoggerUsage();
-//        test.testLog("Lask");
+//        test.testCustomLog("Lask");
 //        test.testLocalization();
 //        test.testFileHandler();
-        test.testInitLogConfig();
+//        test.testInitLogConfig();
 
     }
 }

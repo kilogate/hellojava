@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * DOM 用法
+ * DOM 树形解析器用法
  *
  * @author fengquanwei
  * @create 2017/7/9 22:26
@@ -20,7 +20,7 @@ public class DOMUsage {
         DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
-        File xmlFile = new File("");
+        File xmlFile = new File("pom.xml");
         Document document = documentBuilder.parse(xmlFile);
 
         Element rootElement = document.getDocumentElement();
@@ -35,23 +35,27 @@ public class DOMUsage {
                 if (firstChildNode instanceof Text) {
                     Text firstChildText = (Text) firstChildNode;
                     String text = firstChildText.getData().trim();
-                    if (childElement.getTagName().equals("name")) {
-                        System.out.println("name=" + text);
-                    }
+                    System.out.println(childElement.getTagName() + " = " + text);
                 }
             }
         }
 
         // 另一种遍历子节点的方法
         for (Node childNode = rootElement.getFirstChild(); childNode != null; childNode = childNode.getNextSibling()) {
-            // 枚举节点属性
-            NamedNodeMap attributes = childNode.getAttributes();
-            for(int i =0;i<attributes.getLength();i++){
+
+        }
+
+        System.out.println("==================================================");
+
+        // 枚举节点属性
+        NamedNodeMap attributes = rootElement.getAttributes();
+        if (attributes != null && attributes.getLength() > 0) {
+            for (int i = 0; i < attributes.getLength(); i++) {
                 Node attribute = attributes.item(i);
                 String name = attribute.getNodeName();
                 String value = attribute.getNodeValue();
+                System.out.println(name + " = " + value);
             }
-
         }
     }
 }
