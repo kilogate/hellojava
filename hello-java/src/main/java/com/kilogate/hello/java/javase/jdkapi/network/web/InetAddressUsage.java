@@ -1,4 +1,4 @@
-package com.kilogate.hello.java.javase.jdkapi.network;
+package com.kilogate.hello.java.javase.jdkapi.network.web;
 
 import java.io.IOException;
 import java.net.InetAddress;
