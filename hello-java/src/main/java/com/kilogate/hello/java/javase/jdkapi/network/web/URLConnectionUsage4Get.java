@@ -13,13 +13,13 @@ import java.util.Map;
 import java.util.Scanner;
 
 /**
- * URLConnection 用法
+ * 使用 URLConnection 发 GET 命令
  *
  * @author fengquanwei
  * @create 2017/7/25 10:31
  **/
-public class URLConnectionUsage {
-    public static Logger logger = LoggerFactory.getLogger(URLConnectionUsage.class);
+public class URLConnectionUsage4Get {
+    public static Logger logger = LoggerFactory.getLogger(URLConnectionUsage4Get.class);
 
     public static void main(String[] args) {
         try {

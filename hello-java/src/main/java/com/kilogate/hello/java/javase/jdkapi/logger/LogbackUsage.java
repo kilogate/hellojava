@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 public class LogbackUsage {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    private Logger userLogger = LoggerFactory.getLogger("user");
+
     private void testLogger() {
         logger.trace("===== logger.trace =====");
         logger.debug("===== logger.debug =====");
@@ -21,9 +23,22 @@ public class LogbackUsage {
         logger.error("===== logger.error =====");
     }
 
+    private void testUserLogger(){
+        userLogger.info("12345670");
+        userLogger.info("12345671");
+        userLogger.info("12345672");
+        userLogger.info("12345673");
+        userLogger.info("12345674");
+        userLogger.info("12345675");
+        userLogger.info("12345676");
+        userLogger.info("12345677");
+        userLogger.info("12345678");
+        userLogger.info("12345679");
+    }
+
     public static void main(String[] args) {
         LogbackUsage usage = new LogbackUsage();
-        usage.testLogger();
+        usage.testUserLogger();
     }
 
 }

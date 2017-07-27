@@ -4,6 +4,7 @@
     <contextName>hello-java</contextName>
 
     <property name="pattern" value="%d [%t] %-5p %c{72} - %m%n"/>
+    <property name="userPattern" value="%m,"/>
 
     <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
 
@@ -25,9 +26,25 @@
         </encoder>
     </appender>
 
+    <appender name="USER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>/opt/log/hello/hello-java/user.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>/opt/log/hello/hello-java/history/user.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>${userPattern}</pattern>
+        </encoder>
+    </appender>
+
     <logger name="com.kilogate.hello" level="TRACE" additivity="false">
         <appender-ref ref="CONSOLE"/>
         <appender-ref ref="FILE"/>
+    </logger>
+
+    <logger name="user" level="INFO" additivity="false">
+        <appender-ref ref="USER"/>
     </logger>
 
     <root level="DEBUG">
