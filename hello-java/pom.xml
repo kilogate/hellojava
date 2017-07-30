@@ -25,6 +25,13 @@
             <artifactId>mail</artifactId>
             <version>1.4.7</version>
         </dependency>
+
+        <!-- mysql -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.34</version>
+        </dependency>
     </dependencies>
 
 </project>
