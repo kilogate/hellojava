@@ -58,8 +58,9 @@ public class ProperitiesUsage {
     }
 
     public static void main(String[] args) throws IOException {
-        new ProperitiesUsage().testProperties();
+//        new ProperitiesUsage().testProperties();
 
+        // 系统属性 -D 参数
         Properties properties = System.getProperties();
         Enumeration<?> propertyNames = properties.propertyNames();
         while (propertyNames.hasMoreElements()) {

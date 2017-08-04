@@ -1,5 +1,7 @@
 package com.kilogate.hello.java.javase.jdkapi.i18n;
 
+import java.text.DateFormat;
+import java.util.Arrays;
 import java.util.Locale;
 
 /**
@@ -11,11 +13,16 @@ import java.util.Locale;
 public class LocaleUsage {
     public static void main(String[] args) {
         Locale locale = Locale.getDefault();
+        System.out.println(locale.getCountry());
+        System.out.println(locale.getDisplayCountry());
+        System.out.println(locale.getLanguage());
+        System.out.println(locale.getDisplayLanguage());
+        System.out.println(locale.getDisplayName());
 
-        String country = locale.getCountry();
-        String displayCountry = locale.getDisplayCountry();
-        String displayCountryEnUS = locale.getDisplayCountry(new Locale("en", "US"));
-        String language = locale.getLanguage();
-        String displayLanguage = locale.getDisplayLanguage();
+        System.out.println(locale.getDisplayName(Locale.GERMANY));
+        System.out.println(locale.getDisplayCountry(Locale.KOREA));
+
+        Locale[] availableLocales = DateFormat.getAvailableLocales();
+        System.out.println(Arrays.toString(availableLocales));
     }
 }
