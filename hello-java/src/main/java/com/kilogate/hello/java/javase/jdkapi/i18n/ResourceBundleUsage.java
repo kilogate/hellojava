@@ -1,5 +1,8 @@
 package com.kilogate.hello.java.javase.jdkapi.i18n;
 
+import com.kilogate.hello.java.javase.core.OnePieceRoleEnum;
+
+import java.util.ListResourceBundle;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -24,6 +27,16 @@ public class ResourceBundleUsage {
         Locale enUSLocale = new Locale("en", "US");
         ResourceBundle enUSResourceBundle = ResourceBundle.getBundle("i18n", enUSLocale);
         System.out.println(enUSResourceBundle.getString("hi"));
+
+        // 测试自定义的资源绑定类
+        ResourceBundle defaultMyResourceBundle = ResourceBundle.getBundle("com.kilogate.hello.java.javase.other.OnePieceResourceBundle", Locale.getDefault());
+        ResourceBundle usMyResourceBundle = ResourceBundle.getBundle("com.kilogate.hello.java.javase.other.OnePieceResourceBundle", Locale.US);
+        OnePieceRoleEnum Luffy = (OnePieceRoleEnum) defaultMyResourceBundle.getObject("Luffy");
+        OnePieceRoleEnum Nami = (OnePieceRoleEnum) defaultMyResourceBundle.getObject("Nami");
+        System.out.println(defaultMyResourceBundle.getString("LuffyName"));
+        System.out.println(defaultMyResourceBundle.getString("NamiName"));
+        System.out.println(usMyResourceBundle.getString("LuffyName"));
+        System.out.println(usMyResourceBundle.getString("NamiName"));
     }
 }
 
