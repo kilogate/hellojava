@@ -1,4 +1,4 @@
-package com.kilogate.hello.java.javase.core;
+package com.kilogate.hello.java.javase.core.basic;
 
 /**
  * 类型转换

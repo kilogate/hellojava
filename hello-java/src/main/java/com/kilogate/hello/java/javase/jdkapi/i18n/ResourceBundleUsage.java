@@ -1,8 +1,7 @@
 package com.kilogate.hello.java.javase.jdkapi.i18n;
 
-import com.kilogate.hello.java.javase.core.OnePieceRoleEnum;
+import com.kilogate.hello.java.javase.core.basic.OnePieceRoleEnum;
 
-import java.util.ListResourceBundle;
 import java.util.Locale;
 import java.util.ResourceBundle;
 

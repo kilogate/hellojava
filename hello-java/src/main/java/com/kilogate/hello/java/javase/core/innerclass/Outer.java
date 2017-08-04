@@ -1,29 +1,14 @@
-package com.kilogate.hello.java.javase.core;
+package com.kilogate.hello.java.javase.core.innerclass;
 
 import java.util.ArrayList;
 
 /**
- * 内部类
+ * 外部类
  *
  * @author fengquanwei
- * @create 2017/6/13 14:52
+ * @create 2017/8/4 20:13
  **/
-public class InnerClass {
-    public static void main(String[] args) {
-        Outer outer = new Outer("outer");
-
-        String innerName = outer.getInnerName();
-        System.out.println(innerName);
-
-        String localName = outer.getLocalName("outer");
-        System.out.println(localName);
-
-        Outer.Pair minmax = Outer.minmax(new int[]{1, 2, 3, 4, 5, 6, 7, 8});
-        System.out.println(minmax);
-    }
-}
-
-class Outer {
+public class Outer {
     private String outerName;
 
     public Outer(String outerName) {
@@ -35,7 +20,7 @@ class Outer {
     public String getInnerName() {
         // 创建内部类
 //        Inner inner = new Inner("inner");
-        Outer.Inner inner = this.new Inner("inner"); // 正规语法
+        Inner inner = this.new Inner("inner"); // 正规语法
         return inner.getName();
     }
 

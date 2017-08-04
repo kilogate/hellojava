@@ -1,4 +1,4 @@
-package com.kilogate.hello.java.javase.jdkapi.concurrent.dateformat;
+package com.kilogate.hello.java.javase.jdkapi.concurrent.threadlocal;
 
 import java.text.DateFormat;
 import java.text.ParseException;

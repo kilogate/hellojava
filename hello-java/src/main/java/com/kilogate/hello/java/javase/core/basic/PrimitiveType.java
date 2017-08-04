@@ -1,4 +1,4 @@
-package com.kilogate.hello.java.javase.core;
+package com.kilogate.hello.java.javase.core.basic;
 
 /**
  * Java 基本类型

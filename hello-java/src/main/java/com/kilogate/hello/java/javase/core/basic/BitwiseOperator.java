@@ -1,4 +1,4 @@
-package com.kilogate.hello.java.javase.core;
+package com.kilogate.hello.java.javase.core.basic;
 
 /**
  * 位运算符
@@ -68,6 +68,9 @@ public class BitwiseOperator {
         System.out.println();
     }
 
+    /**
+     * 打印 Integer 的二进制形式
+     */
     private static String toBinaryString(Integer integer) {
         char[] result = new char[40];
         int index = 0;

@@ -1,4 +1,4 @@
-package com.kilogate.hello.java.javase.core;
+package com.kilogate.hello.java.javase.core.basic;
 
 import java.util.Arrays;
 import java.util.Objects;

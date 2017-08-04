@@ -1,6 +1,6 @@
 package com.kilogate.hello.java.javase.other;
 
-import com.kilogate.hello.java.javase.core.OnePieceRoleEnum;
+import com.kilogate.hello.java.javase.core.basic.OnePieceRoleEnum;
 
 import java.util.ListResourceBundle;
 
