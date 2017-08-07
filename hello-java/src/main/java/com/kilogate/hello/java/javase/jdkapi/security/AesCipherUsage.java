@@ -26,15 +26,15 @@ public class AesCipherUsage {
             aesEncryptCipher.init(Cipher.ENCRYPT_MODE, aesSecretKey);
             try (InputStream in = new FileInputStream("/Users/kilogate/Downloads/plaintextFile");
                  OutputStream out = new FileOutputStream("/Users/kilogate/Downloads/encryptedFile")) {
-                CryptUtil.crypt(in, out, aesEncryptCipher);
+                AesCryptUtil.crypt(in, out, aesEncryptCipher);
             }
 
-            //解密
+            // 解密
             Cipher aesDecryptCipher = Cipher.getInstance("AES");
             aesDecryptCipher.init(Cipher.DECRYPT_MODE, aesSecretKey);
             try (InputStream in = new FileInputStream("/Users/kilogate/Downloads/encryptedFile");
                  OutputStream out = new FileOutputStream("/Users/kilogate/Downloads/decryptedFile")) {
-                CryptUtil.crypt(in, out, aesDecryptCipher);
+                AesCryptUtil.crypt(in, out, aesDecryptCipher);
             }
         } catch (IOException e) {
             e.printStackTrace();

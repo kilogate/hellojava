@@ -54,7 +54,7 @@ public class RsaCipherUsage {
                 // 使用 AES 密钥对数据加密
                 Cipher aesCipher = Cipher.getInstance("AES");
                 aesCipher.init(Cipher.ENCRYPT_MODE, aesSecretKey);
-                CryptUtil.crypt(in, out, aesCipher);
+                AesCryptUtil.crypt(in, out, aesCipher);
             }
 
             // 解密
@@ -74,7 +74,7 @@ public class RsaCipherUsage {
                 // 使用 AES 密钥对数据解密
                 Cipher aesCipher = Cipher.getInstance("AES");
                 aesCipher.init(Cipher.DECRYPT_MODE, aesSecretKey);
-                CryptUtil.crypt(in, out, aesCipher);
+                AesCryptUtil.crypt(in, out, aesCipher);
             }
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();

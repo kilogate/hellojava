@@ -14,7 +14,7 @@ import java.io.OutputStream;
  * @author fengquanwei
  * @create 2017/8/6 23:25
  **/
-public class CryptUtil {
+public class AesCryptUtil {
     public static void crypt(InputStream in, OutputStream out, Cipher cipher) throws IOException, ShortBufferException, BadPaddingException, IllegalBlockSizeException {
         int blockSize = cipher.getBlockSize();
         int outputSize = cipher.getOutputSize(blockSize);
