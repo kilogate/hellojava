@@ -25,9 +25,7 @@ public class HelloServer {
 
                 logger.info("Spawning " + i);
 
-                HelloServerHandler helloServerHandler = new HelloServerHandler(socket);
-                Thread thread = new Thread(helloServerHandler);
-                thread.start();
+                new Thread(new HelloServerHandler(socket)).start();
                 i++;
             }
         } catch (IOException e) {

@@ -4,8 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Scanner;
@@ -29,11 +27,8 @@ public class HelloServerHandler implements Runnable {
     public void run() {
         try {
             try {
-                InputStream inputStream = socket.getInputStream();
-                OutputStream outputStream = socket.getOutputStream();
-
-                Scanner scanner = new Scanner(inputStream);
-                PrintWriter printWriter = new PrintWriter(outputStream, true);
+                Scanner scanner = new Scanner(socket.getInputStream());
+                PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
 
                 printWriter.println("Hello! Enter BYE to exit.\n");
                 boolean done = false;

@@ -27,8 +27,7 @@ class InterruptibleHandler implements Runnable {
     public void run() {
         try {
             try {
-                OutputStream outputStream = socket.getOutputStream();
-                PrintWriter printWriter = new PrintWriter(outputStream, true);
+                PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
 
                 while (counter < 17) {
                     counter++;

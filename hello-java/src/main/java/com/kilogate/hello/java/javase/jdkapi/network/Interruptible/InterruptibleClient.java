@@ -4,7 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.nio.channels.SocketChannel;
 import java.util.Scanner;
 
@@ -21,8 +23,7 @@ public class InterruptibleClient {
         // 阻塞套接字
 //        try {
 //            try (Socket socket = new Socket("localhost", 8081)) {
-//                InputStream inputStream = socket.getInputStream();
-//                Scanner scanner = new Scanner(inputStream);
+//                Scanner scanner = new Scanner(socket.getInputStream());
 //
 //                while (!Thread.currentThread().isInterrupted()) {
 //                    while (scanner.hasNextLine()) {

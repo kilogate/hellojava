@@ -25,9 +25,7 @@ public class InterruptibleServer {
 
                 logger.info("Spawning " + i);
 
-                InterruptibleHandler interruptibleHandler = new InterruptibleHandler(socket);
-                Thread thread = new Thread(interruptibleHandler);
-                thread.start();
+                new Thread(new InterruptibleHandler(socket)).start();
                 i++;
             }
         } catch (IOException e) {

@@ -24,7 +24,7 @@ public class MD5Util {
     }
 
     public static void main(String[] args) throws NoSuchAlgorithmException {
-        String message = "你好";
+        String message = "你好gdgdfgsadgsdgsdfsdfs";
         byte[] md5Bytes = md5(message);
         System.out.println(Arrays.toString(md5Bytes));
     }
