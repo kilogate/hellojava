@@ -2,8 +2,6 @@ package com.kilogate.hello.tomcat.httpserver;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -23,15 +21,29 @@ public class HttpServer {
     private boolean shutdown = false;
 
     public static void main(String[] args) {
+        // 浏览器访问 http://127.0.0.1:8081/hello.html
         HttpServer server = new HttpServer();
         server.await();
     }
 
     public void await() {
-        ServerSocket serverSocket = null;
-        int port = 8081;
-        try {
-            serverSocket = new ServerSocket(port, 1, InetAddress.getByName("127.0.0.1"));
+        try (ServerSocket serverSocket = new ServerSocket(8081, 1, InetAddress.getByName("127.0.0.1"))) {
+            while (!shutdown) {
+                Socket socket = serverSocket.accept();
+
+                // 请求
+                Request request = new Request(socket.getInputStream());
+                request.parse();
+
+                // 响应
+                Response response = new Response(socket.getOutputStream());
+                response.setRequest(request);
+                response.sendStaticResource();
+
+                socket.close();
+
+                shutdown = request.getUri().equals(SHUTDOWN_COMMAND);
+            }
         } catch (UnknownHostException e) {
             e.printStackTrace();
             System.exit(1);
@@ -39,32 +51,5 @@ public class HttpServer {
             e.printStackTrace();
             System.exit(1);
         }
-
-        while (!shutdown) {
-            Socket socket = null;
-            InputStream input = null;
-            OutputStream output = null;
-
-            try {
-                socket = serverSocket.accept();
-                input = socket.getInputStream();
-                output = socket.getOutputStream();
-
-                Request request = new Request(input);
-                request.parse();
-
-                Response response = new Response(output);
-                response.setRequest(request);
-                response.sendStaticResource();
-
-                socket.close();
-
-                shutdown = request.getUri().equals(SHUTDOWN_COMMAND);
-            } catch (IOException e) {
-                e.printStackTrace();
-                continue;
-            }
-        }
-
     }
 }

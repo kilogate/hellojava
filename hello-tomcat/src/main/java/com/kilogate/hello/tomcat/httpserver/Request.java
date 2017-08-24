@@ -19,30 +19,31 @@ public class Request {
 
     public void parse() {
         StringBuffer request = new StringBuffer(2048);
-        int i;
+
         byte[] buffer = new byte[2048];
+        int lenth;
         try {
-            i = input.read(buffer);
+            lenth = input.read(buffer);
         } catch (IOException e) {
             e.printStackTrace();
-            i = -1;
+            lenth = -1;
         }
 
-        for (int j = 0; j < i; j++) {
-            request.append((char) buffer[j]);
+        for (int i = 0; i < lenth; i++) {
+            request.append((char) buffer[i]);
         }
 
         System.out.println(request.toString());
         uri = parseUri(request.toString());
     }
 
-    private String parseUri(String requestString) {
+    private String parseUri(String request) {
         int index1, index2;
-        index1 = requestString.indexOf(' ');
+        index1 = request.indexOf(' ');
         if (index1 != -1) {
-            index2 = requestString.indexOf(' ', index1 + 1);
+            index2 = request.indexOf(' ', index1 + 1);
             if (index2 > index1) {
-                return requestString.substring(index1 + 1, index2);
+                return request.substring(index1 + 1, index2);
             }
         }
         return null;
