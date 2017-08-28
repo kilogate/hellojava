@@ -1,4 +1,4 @@
-package com.kilogate.hello.java.javase.jvm.oom;
+package com.kilogate.hello.java.javase.jvm.sof;
 
 /**
  * 虚拟机栈栈溢出

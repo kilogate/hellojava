@@ -1,33 +1,21 @@
-package com.kilogate.hello.tomcat.httpserver;
+package com.kilogate.hello.tomcat.servletcontainer;
 
 import com.kilogate.hello.tomcat.constant.Constants;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
 /**
- * 响应
+ * 静态资源处理器
  *
  * @author fengquanwei
- * @create 2017/8/24 14:38
+ * @create 2017/8/28 14:11
  **/
-public class Response {
+public class StaticResourceProcessor {
     private static final int BUFFER_SIZE = 1024;
 
-    Request request;
-    OutputStream output;
-
-    public Response(OutputStream output) {
-        this.output = output;
-    }
-
-    public void setRequest(Request request) {
-        this.request = request;
-    }
-
-    public void sendStaticResource() {
+    public void process(Request request, Response response) {
         byte[] buffer = new byte[BUFFER_SIZE];
 
         try {
@@ -36,7 +24,7 @@ public class Response {
                 try (FileInputStream inputStream = new FileInputStream(file)) {
                     int read = inputStream.read(buffer, 0, BUFFER_SIZE);
                     while (read != -1) {
-                        output.write(buffer, 0, read);
+                        response.output.write(buffer, 0, read);
                         read = inputStream.read(buffer, 0, BUFFER_SIZE);
                     }
                 }
@@ -46,10 +34,11 @@ public class Response {
                         "Conent-Length: 23\r\n" +
                         "\r\n" +
                         "<h1>File Not Found</h1>";
-                output.write(errorMessage.getBytes());
+                response.output.write(errorMessage.getBytes());
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
 }

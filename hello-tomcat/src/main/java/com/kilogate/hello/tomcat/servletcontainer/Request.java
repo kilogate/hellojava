@@ -37,14 +37,15 @@ public class Request implements ServletRequest {
         try {
             lenth = input.read(buffer);
         } catch (IOException e) {
-            e.printStackTrace();
             lenth = -1;
+            e.printStackTrace();
         }
 
         for (int i = 0; i < lenth; i++) {
             request.append((char) buffer[i]);
         }
 
+        System.out.println("==================== 收到请求 ====================");
         System.out.println(request.toString());
         uri = parseUri(request.toString());
     }

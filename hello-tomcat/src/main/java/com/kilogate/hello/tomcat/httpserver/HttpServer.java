@@ -14,14 +14,14 @@ import java.net.UnknownHostException;
  * @create 2017/8/24 14:19
  **/
 public class HttpServer {
-    public static final String WEB_ROOT = System.getProperty("user.dir") + File.separator + "hello-tomcat" + File.separator + "src" + File.separator + "main" + File.separator + "webroot";
-
     private static final String SHUTDOWN_COMMAND = "/SHUTDOWN";
 
     private boolean shutdown = false;
 
+    /**
+     * 浏览器访问 http://127.0.0.1:8081/hello.html
+     */
     public static void main(String[] args) {
-        // 浏览器访问 http://127.0.0.1:8081/hello.html
         HttpServer server = new HttpServer();
         server.await();
     }

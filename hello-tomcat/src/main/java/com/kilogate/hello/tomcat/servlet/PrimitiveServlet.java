@@ -13,7 +13,7 @@ import java.io.PrintWriter;
 public class PrimitiveServlet implements Servlet {
     @Override
     public void init(ServletConfig servletConfig) throws ServletException {
-        System.out.println("init");
+        System.out.println("PrimitiveServlet.init()");
     }
 
     @Override
@@ -23,10 +23,14 @@ public class PrimitiveServlet implements Servlet {
 
     @Override
     public void service(ServletRequest servletRequest, ServletResponse servletResponse) throws ServletException, IOException {
-        System.out.println("from serviece");
+        System.out.println("PrimitiveServlet.service()");
+
         PrintWriter writer = servletResponse.getWriter();
-        writer.println("Hello. Roses are red.");
-        writer.print("Violets are blue.");
+        writer.println("HTTP/1.1 200 OK\n" +
+                "Content-Type: text/html\n" +
+                "Conent-Length: 22\n" +
+                "\n" +
+                "<h1>Hello Servlet</h1>");
     }
 
     @Override
@@ -36,6 +40,6 @@ public class PrimitiveServlet implements Servlet {
 
     @Override
     public void destroy() {
-        System.out.println("destory");
+        System.out.println("PrimitiveServlet.destory()");
     }
 }

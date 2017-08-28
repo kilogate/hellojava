@@ -28,32 +28,6 @@ public class Response implements ServletResponse {
         this.request = request;
     }
 
-    public void sendStaticResource() {
-        byte[] buffer = new byte[BUFFER_SIZE];
-
-        try {
-            File file = new File(HttpServer.WEB_ROOT, request.getUri());
-            if (file.exists()) {
-                try (FileInputStream inputStream = new FileInputStream(file)) {
-                    int read = inputStream.read(buffer, 0, BUFFER_SIZE);
-                    while (read != -1) {
-                        output.write(buffer, 0, read);
-                        read = inputStream.read(buffer, 0, BUFFER_SIZE);
-                    }
-                }
-            } else {
-                String errorMessage = "HTTP/1.1 404 File Not Found\r\n" +
-                        "Content-Type: text/html\r\n" +
-                        "Conent-Length: 23\r\n" +
-                        "\r\n" +
-                        "<h1>File Not Found</h1>";
-                output.write(errorMessage.getBytes());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public String getCharacterEncoding() {
         return null;
