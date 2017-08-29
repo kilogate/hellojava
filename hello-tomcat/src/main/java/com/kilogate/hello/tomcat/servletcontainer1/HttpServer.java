@@ -1,4 +1,4 @@
-package com.kilogate.hello.tomcat.servletcontainer;
+package com.kilogate.hello.tomcat.servletcontainer1;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -19,7 +19,7 @@ public class HttpServer {
 
     /**
      * Debug Configuration
-     * Main class: com.kilogate.hello.tomcat.servletcontainer.HttpServer
+     * Main class: com.kilogate.hello.tomcat.servletcontainer1.HttpServer
      * VM options: -classpath /Users/kilogate/.m2/repository/javax/servlet/servlet-api/3.0-alpha-1/servlet-api-3.0-alpha-1.jar:./
      * Working directory: /Users/kilogate/IdeaProjects/hello/hello-tomcat/target/classes
      * Use classpath of module: hello-tomcat

@@ -1,6 +1,4 @@
-package com.kilogate.hello.tomcat.servletcontainer;
-
-import com.kilogate.hello.tomcat.httpserver.HttpServer;
+package com.kilogate.hello.tomcat.servletcontainer1;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletResponse;
