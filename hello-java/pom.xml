@@ -32,6 +32,13 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>5.1.34</version>
         </dependency>
+
+        <!-- CGLib -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>4.2.0.RELEASE</version>
+        </dependency>
     </dependencies>
 
 </project>

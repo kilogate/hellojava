@@ -24,7 +24,7 @@ import java.util.Set;
  * @create 2017/8/8 17:08
  **/
 @SupportedAnnotationTypes("com.kilogate.hello.java.javase.jdkapi.annotation.beaninfo.Property")
-@SupportedSourceVersion(SourceVersion.RELEASE_8)
+@SupportedSourceVersion(SourceVersion.RELEASE_7)
 public class BeanInfoAnnotationProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
