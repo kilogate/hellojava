@@ -15,7 +15,7 @@ import java.net.UnknownHostException;
  * @author fengquanwei
  * @create 2017/8/24 14:19
  **/
-public class HttpServer2 {
+public class HttpServer {
     private boolean shutdown = false;
 
     /**
@@ -28,7 +28,7 @@ public class HttpServer2 {
      * http://localhost:8081/servlet/com.kilogate.hello.tomcat.servlet.PrimitiveServlet
      */
     public static void main(String[] args) {
-        HttpServer2 server = new HttpServer2();
+        HttpServer server = new HttpServer();
         server.await();
     }
 
@@ -45,7 +45,7 @@ public class HttpServer2 {
                 String uri = request.getUri();
                 System.out.println("请求 URI：" + uri);
                 if (uri == null || uri.equals("")) {
-                    System.out.println("==================== 请求结束 ====================");
+                    System.out.println("==================== 请求结束 ====================\n\n");
                     continue;
                 }
 
@@ -55,7 +55,7 @@ public class HttpServer2 {
 
                 // 响应
                 if (uri.startsWith("/servlet/")) {
-                    ServletProcessor2 processor = new ServletProcessor2();
+                    ServletProcessor processor = new ServletProcessor();
                     processor.process(request, response);
                 } else {
                     StaticResourceProcessor processor = new StaticResourceProcessor();

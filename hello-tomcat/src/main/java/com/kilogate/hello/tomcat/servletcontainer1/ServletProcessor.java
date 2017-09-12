@@ -16,7 +16,7 @@ import java.net.URLStreamHandler;
  * @author fengquanwei
  * @create 2017/8/28 14:12
  **/
-public class ServletProcessor2 {
+public class ServletProcessor {
     public void process(Request request, Response response) {
         String uri = request.getUri();
         String servletName = uri.substring(uri.lastIndexOf("/") + 1);
