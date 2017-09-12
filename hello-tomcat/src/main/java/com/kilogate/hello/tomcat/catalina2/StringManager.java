@@ -1,4 +1,4 @@
-package com.kilogate.hello.tomcat.catalina3;
+package com.kilogate.hello.tomcat.catalina2;
 
 import java.io.IOException;
 import java.util.Hashtable;
@@ -6,6 +6,7 @@ import java.util.Properties;
 
 /**
  * 错误信息国际化管理
+ * 每个包一个配置文件（LocalStrings.properties）
  *
  * @author fengquanwei
  * @create 2017/8/30 11:46
@@ -31,11 +32,18 @@ public class StringManager {
     public String getString(String key) {
         Properties properties = new Properties();
         try {
-            properties.load(ClassLoader.getSystemResourceAsStream(packageName.replaceAll("\\.", "/") + "/LocalStrings.properties"));
+            String filepath = "localstrings/" + packageName.replaceAll("\\.", "/") + "/LocalStrings.properties";
+            properties.load(ClassLoader.getSystemResourceAsStream(filepath));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         return properties.getProperty(key);
+    }
+
+    public static void main(String[] args) {
+        StringManager manager = StringManager.getManager(StringManager.class.getPackage().getName());
+        String string = manager.getString("httpConnector.alreadyInitialized");
+        System.out.println(string);
     }
 }

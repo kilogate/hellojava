@@ -2,7 +2,9 @@ package com.kilogate.hello.tomcat.servletcontainer1;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletResponse;
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.Locale;
 
 /**

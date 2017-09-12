@@ -1,6 +1,8 @@
-package com.kilogate.hello.tomcat.servletcontainer2;
+package com.kilogate.hello.tomcat.catalina2.core;
 
 import com.kilogate.hello.tomcat.constant.Constants;
+import com.kilogate.hello.tomcat.servletcontainer1.Request;
+import com.kilogate.hello.tomcat.servletcontainer1.Response;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,7 +26,7 @@ public class StaticResourceProcessor {
                 try (FileInputStream inputStream = new FileInputStream(file)) {
                     int read = inputStream.read(buffer, 0, BUFFER_SIZE);
                     while (read != -1) {
-                        response.output.write(buffer, 0, read);
+//                        response.output.write(buffer, 0, read);
                         read = inputStream.read(buffer, 0, BUFFER_SIZE);
                     }
                 }
@@ -34,7 +36,7 @@ public class StaticResourceProcessor {
                         "Conent-Length: 23\r\n" +
                         "\r\n" +
                         "<h1>File Not Found</h1>";
-                response.output.write(errorMessage.getBytes());
+//                response.output.write(errorMessage.getBytes());
             }
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,5 +1,7 @@
 package com.kilogate.hello.tomcat.httpserver0;
 
+import com.kilogate.hello.tomcat.constant.Constants;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -13,12 +15,14 @@ import java.net.UnknownHostException;
  * @create 2017/8/24 14:19
  **/
 public class HttpServer {
-    private static final String SHUTDOWN_COMMAND = "/SHUTDOWN";
-
     private boolean shutdown = false;
 
     /**
-     * 浏览器访问 http://127.0.0.1:8081/hello.html
+     * Debug Configuration
+     * Working Directory /Users/fengquanwei/IdeaProjects/hello/hello-tomcat
+     * <p>
+     * Test URL
+     * http://127.0.0.1:8081/hello.html
      */
     public static void main(String[] args) {
         HttpServer server = new HttpServer();
@@ -43,8 +47,10 @@ public class HttpServer {
 
                 socket.close();
 
-                shutdown = request.getUri().equals(SHUTDOWN_COMMAND);
+                shutdown = request.getUri().equals(Constants.SHUTDOWN_COMMAND);
             }
+
+            System.out.println("SHUTDOWN");
         } catch (UnknownHostException e) {
             e.printStackTrace();
             System.exit(1);

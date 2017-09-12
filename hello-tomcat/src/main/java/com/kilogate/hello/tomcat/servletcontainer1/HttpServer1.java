@@ -1,4 +1,6 @@
-package com.kilogate.hello.tomcat.servletcontainer2;
+package com.kilogate.hello.tomcat.servletcontainer1;
+
+import com.kilogate.hello.tomcat.constant.Constants;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -8,28 +10,24 @@ import java.net.UnknownHostException;
 
 /**
  * Web 服务器（Servlet 容器）
- * 第二版改动：Facade
  *
  * @author fengquanwei
  * @create 2017/8/24 14:19
  **/
-public class HttpServer {
-    private static final String SHUTDOWN_COMMAND = "/SHUTDOWN";
-
+public class HttpServer1 {
     private boolean shutdown = false;
 
     /**
      * Debug Configuration
-     * Main class: com.kilogate.hello.tomcat.servletcontainer2.HttpServer
-     * VM options: -classpath /Users/kilogate/.m2/repository/javax/servlet/servlet-api/3.0-alpha-1/servlet-api-3.0-alpha-1.jar:./
-     * Working directory: /Users/kilogate/IdeaProjects/hello/hello-tomcat/target/classes
-     * Use classpath of module: hello-tomcat
+     * Working directory: /Users/kilogate/IdeaProjects/hello/hello-tomcat
+     * VM options: -classpath /Users/fengquanwei/IdeaProjects/hello/hello-tomcat/target/classes:/Users/fengquanwei/.m2/repository/javax/servlet/servlet-api/3.0-alpha-1/servlet-api-3.0-alpha-1.jar:./
      * <p>
-     * 浏览器访问 http://localhost:8081/hello.html
-     * 浏览器访问 http://localhost:8081/servlet/com.kilogate.hello.tomcat.servlet.PrimitiveServlet
+     * Test URL
+     * http://localhost:8081/hello.html
+     * http://localhost:8081/servlet/com.kilogate.hello.tomcat.servlet.PrimitiveServlet
      */
     public static void main(String[] args) {
-        HttpServer server = new HttpServer();
+        HttpServer1 server = new HttpServer1();
         server.await();
     }
 
@@ -46,7 +44,7 @@ public class HttpServer {
                 String uri = request.getUri();
                 System.out.println("请求 URI：" + uri);
                 if (uri == null || uri.equals("")) {
-                    System.out.println("==================== 请求结束 ====================");
+                    System.out.println("==================== 请求结束 ====================\n\n");
                     continue;
                 }
 
@@ -56,7 +54,7 @@ public class HttpServer {
 
                 // 响应
                 if (uri.startsWith("/servlet/")) {
-                    ServletProcessor processor = new ServletProcessor();
+                    ServletProcessor1 processor = new ServletProcessor1();
                     processor.process(request, response);
                 } else {
                     StaticResourceProcessor processor = new StaticResourceProcessor();
@@ -68,7 +66,7 @@ public class HttpServer {
 
                 System.out.println("==================== 请求结束 ====================\n\n\n");
 
-                shutdown = uri.equals(SHUTDOWN_COMMAND);
+                shutdown = uri.equals(Constants.SHUTDOWN_COMMAND);
             }
         } catch (UnknownHostException e) {
             e.printStackTrace();

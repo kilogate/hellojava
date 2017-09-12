@@ -16,7 +16,7 @@ import java.net.URLStreamHandler;
  * @author fengquanwei
  * @create 2017/8/28 14:12
  **/
-public class ServletProcessor {
+public class ServletProcessor2 {
     public void process(Request request, Response response) {
         String uri = request.getUri();
         String servletName = uri.substring(uri.lastIndexOf("/") + 1);
@@ -28,7 +28,7 @@ public class ServletProcessor {
             try (URLClassLoader loader = new URLClassLoader(urls)) {
                 Class myClass = loader.loadClass(servletName);
                 Servlet servlet = (Servlet) myClass.newInstance();
-                servlet.service(request, response);
+                servlet.service(new RequestFacade(request), new ResponseFacade(response));
             }
         } catch (IOException e) {
             e.printStackTrace();

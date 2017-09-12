@@ -1,4 +1,4 @@
-package com.kilogate.hello.tomcat.catalina3.connector;
+package com.kilogate.hello.tomcat.catalina2.connector;
 
 import java.io.IOException;
 import java.io.InputStream;

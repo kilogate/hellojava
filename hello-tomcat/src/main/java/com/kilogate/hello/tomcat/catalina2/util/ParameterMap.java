@@ -1,6 +1,6 @@
-package com.kilogate.hello.tomcat.catalina3.util;
+package com.kilogate.hello.tomcat.catalina2.util;
 
-import com.kilogate.hello.tomcat.catalina3.StringManager;
+import com.kilogate.hello.tomcat.catalina2.StringManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Map;
  * @create 2017/8/31 17:48
  **/
 public class ParameterMap extends HashMap {
-    private static final StringManager sm = StringManager.getManager("com.kilogate.hello.tomcat.catalina3.util");
+    private static final StringManager sm = StringManager.getManager("com.kilogate.hello.tomcat.catalina2.util");
     private boolean locked = false;
 
     public ParameterMap() {

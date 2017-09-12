@@ -1,65 +1,148 @@
-package com.kilogate.hello.tomcat.servletcontainer2;
+package com.kilogate.hello.tomcat.catalina2.connector;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletInputStream;
-import javax.servlet.ServletRequest;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.security.Principal;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Map;
 
 /**
- * ServletRequest
+ * HTTP 请求
  *
  * @author fengquanwei
- * @create 2017/8/25 17:52
+ * @create 12/09/2017 10:15 AM
  **/
-public class Request implements ServletRequest {
-    private InputStream input;
-    private String uri;
-
-    public Request(InputStream input) {
-        this.input = input;
-    }
-
-    public String getUri() {
-        return uri;
-    }
-
-    public void parse() {
-        StringBuffer request = new StringBuffer(2048);
-
-        byte[] buffer = new byte[2048];
-        int lenth;
-        try {
-            lenth = input.read(buffer);
-        } catch (IOException e) {
-            lenth = -1;
-            e.printStackTrace();
-        }
-
-        for (int i = 0; i < lenth; i++) {
-            request.append((char) buffer[i]);
-        }
-
-        System.out.println("==================== 收到请求 ====================");
-        System.out.println(request.toString());
-        uri = parseUri(request.toString());
-    }
-
-    private String parseUri(String request) {
-        int index1, index2;
-        index1 = request.indexOf(' ');
-        if (index1 != -1) {
-            index2 = request.indexOf(' ', index1 + 1);
-            if (index2 > index1) {
-                return request.substring(index1 + 1, index2);
-            }
-        }
+public class HttpRequest implements HttpServletRequest{
+    @Override
+    public String getAuthType() {
         return null;
+    }
+
+    @Override
+    public Cookie[] getCookies() {
+        return new Cookie[0];
+    }
+
+    @Override
+    public long getDateHeader(String s) {
+        return 0;
+    }
+
+    @Override
+    public String getHeader(String s) {
+        return null;
+    }
+
+    @Override
+    public Enumeration getHeaders(String s) {
+        return null;
+    }
+
+    @Override
+    public Enumeration getHeaderNames() {
+        return null;
+    }
+
+    @Override
+    public int getIntHeader(String s) {
+        return 0;
+    }
+
+    @Override
+    public String getMethod() {
+        return null;
+    }
+
+    @Override
+    public String getPathInfo() {
+        return null;
+    }
+
+    @Override
+    public String getPathTranslated() {
+        return null;
+    }
+
+    @Override
+    public String getContextPath() {
+        return null;
+    }
+
+    @Override
+    public String getQueryString() {
+        return null;
+    }
+
+    @Override
+    public String getRemoteUser() {
+        return null;
+    }
+
+    @Override
+    public boolean isUserInRole(String s) {
+        return false;
+    }
+
+    @Override
+    public Principal getUserPrincipal() {
+        return null;
+    }
+
+    @Override
+    public String getRequestedSessionId() {
+        return null;
+    }
+
+    @Override
+    public String getRequestURI() {
+        return null;
+    }
+
+    @Override
+    public StringBuffer getRequestURL() {
+        return null;
+    }
+
+    @Override
+    public String getServletPath() {
+        return null;
+    }
+
+    @Override
+    public HttpSession getSession(boolean b) {
+        return null;
+    }
+
+    @Override
+    public HttpSession getSession() {
+        return null;
+    }
+
+    @Override
+    public boolean isRequestedSessionIdValid() {
+        return false;
+    }
+
+    @Override
+    public boolean isRequestedSessionIdFromCookie() {
+        return false;
+    }
+
+    @Override
+    public boolean isRequestedSessionIdFromURL() {
+        return false;
+    }
+
+    @Override
+    public boolean isRequestedSessionIdFromUrl() {
+        return false;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.kilogate.hello.tomcat.servletcontainer1;
 
+import com.kilogate.hello.tomcat.constant.Constants;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -8,27 +10,25 @@ import java.net.UnknownHostException;
 
 /**
  * Web 服务器（Servlet 容器）
+ * 第二版改动：Facade
  *
  * @author fengquanwei
  * @create 2017/8/24 14:19
  **/
-public class HttpServer {
-    private static final String SHUTDOWN_COMMAND = "/SHUTDOWN";
-
+public class HttpServer2 {
     private boolean shutdown = false;
 
     /**
      * Debug Configuration
-     * Main class: com.kilogate.hello.tomcat.servletcontainer1.HttpServer
-     * VM options: -classpath /Users/kilogate/.m2/repository/javax/servlet/servlet-api/3.0-alpha-1/servlet-api-3.0-alpha-1.jar:./
-     * Working directory: /Users/kilogate/IdeaProjects/hello/hello-tomcat/target/classes
-     * Use classpath of module: hello-tomcat
+     * Working directory: /Users/kilogate/IdeaProjects/hello/hello-tomcat
+     * VM options: -classpath /Users/fengquanwei/IdeaProjects/hello/hello-tomcat/target/classes:/Users/fengquanwei/.m2/repository/javax/servlet/servlet-api/3.0-alpha-1/servlet-api-3.0-alpha-1.jar:./
      * <p>
-     * 浏览器访问 http://localhost:8081/hello.html
-     * 浏览器访问 http://localhost:8081/servlet/com.kilogate.hello.tomcat.servlet.PrimitiveServlet
+     * Test URL
+     * http://localhost:8081/hello.html
+     * http://localhost:8081/servlet/com.kilogate.hello.tomcat.servlet.PrimitiveServlet
      */
     public static void main(String[] args) {
-        HttpServer server = new HttpServer();
+        HttpServer2 server = new HttpServer2();
         server.await();
     }
 
@@ -55,7 +55,7 @@ public class HttpServer {
 
                 // 响应
                 if (uri.startsWith("/servlet/")) {
-                    ServletProcessor processor = new ServletProcessor();
+                    ServletProcessor2 processor = new ServletProcessor2();
                     processor.process(request, response);
                 } else {
                     StaticResourceProcessor processor = new StaticResourceProcessor();
@@ -67,7 +67,7 @@ public class HttpServer {
 
                 System.out.println("==================== 请求结束 ====================\n\n\n");
 
-                shutdown = uri.equals(SHUTDOWN_COMMAND);
+                shutdown = uri.equals(Constants.SHUTDOWN_COMMAND);
             }
         } catch (UnknownHostException e) {
             e.printStackTrace();

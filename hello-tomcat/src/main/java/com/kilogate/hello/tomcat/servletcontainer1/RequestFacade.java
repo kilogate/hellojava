@@ -1,4 +1,4 @@
-package com.kilogate.hello.tomcat.servletcontainer2;
+package com.kilogate.hello.tomcat.servletcontainer1;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletInputStream;

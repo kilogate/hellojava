@@ -1,106 +1,96 @@
-package com.kilogate.hello.tomcat.servletcontainer2;
+package com.kilogate.hello.tomcat.servletcontainer1;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletResponse;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Locale;
 
 /**
- * ServletResponse
+ * 响应门面
  *
  * @author fengquanwei
- * @create 2017/8/25 17:57
+ * @create 2017/8/29 19:29
  **/
-public class Response implements ServletResponse {
-    private static final int BUFFER_SIZE = 1024;
+public class ResponseFacade implements ServletResponse {
+    private ServletResponse response = null;
 
-    Request request;
-    OutputStream output;
-    PrintWriter writer;
-
-    public Response(OutputStream output) {
-        this.output = output;
-    }
-
-    public void setRequest(Request request) {
-        this.request = request;
+    public ResponseFacade(ServletResponse response) {
+        this.response = response;
     }
 
     @Override
     public String getCharacterEncoding() {
-        return null;
+        return response.getCharacterEncoding();
     }
 
     @Override
     public String getContentType() {
-        return null;
+        return response.getContentType();
     }
 
     @Override
     public ServletOutputStream getOutputStream() throws IOException {
-        return null;
+        return response.getOutputStream();
     }
 
     @Override
     public PrintWriter getWriter() throws IOException {
-        writer = new PrintWriter(output, true); // println 自动刷新，但 print 不自动刷新
-        return writer;
+        return response.getWriter();
     }
 
     @Override
     public void setCharacterEncoding(String s) {
-
+        response.setCharacterEncoding(s);
     }
 
     @Override
     public void setContentLength(int i) {
-
+        response.setContentLength(i);
     }
 
     @Override
     public void setContentType(String s) {
-
+        response.setContentType(s);
     }
 
     @Override
     public void setBufferSize(int i) {
-
+        response.setBufferSize(i);
     }
 
     @Override
     public int getBufferSize() {
-        return 0;
+        return response.getBufferSize();
     }
 
     @Override
     public void flushBuffer() throws IOException {
-
+        response.flushBuffer();
     }
 
     @Override
     public void resetBuffer() {
-
+        response.resetBuffer();
     }
 
     @Override
     public boolean isCommitted() {
-        return false;
+        return response.isCommitted();
     }
 
     @Override
     public void reset() {
-
+        response.reset();
     }
 
     @Override
     public void setLocale(Locale locale) {
-
+        response.setLocale(locale);
     }
 
     @Override
     public Locale getLocale() {
-        return null;
+        return response.getLocale();
     }
 }

@@ -28,9 +28,9 @@ public class PrimitiveServlet implements Servlet {
         PrintWriter writer = servletResponse.getWriter();
         writer.println("HTTP/1.1 200 OK\n" +
                 "Content-Type: text/html\n" +
-                "Conent-Length: 22\n" +
+                "Conent-Length: 31\n" +
                 "\n" +
-                "<h1>Hello Servlet</h1>");
+                "<h1>Hello PrimitiveServlet</h1>");
     }
 
     @Override
