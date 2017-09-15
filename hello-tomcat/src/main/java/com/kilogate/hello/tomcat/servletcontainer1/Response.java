@@ -14,8 +14,6 @@ import java.util.Locale;
  * @create 2017/8/25 17:57
  **/
 public class Response implements ServletResponse {
-    private static final int BUFFER_SIZE = 1024;
-
     Request request;
     OutputStream output;
     PrintWriter writer;

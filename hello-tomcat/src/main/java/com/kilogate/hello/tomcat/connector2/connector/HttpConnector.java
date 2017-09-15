@@ -1,4 +1,4 @@
-package com.kilogate.hello.tomcat.catalina2.connector;
+package com.kilogate.hello.tomcat.connector2.connector;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -26,8 +26,8 @@ public class HttpConnector implements Runnable {
             while (!stopped) {
                 Socket socket = serverSocket.accept();
 
-//                HttpProcessor processor = new HttpProcessor(this);
-//                processor.process(socket);
+                HttpProcessor processor = new HttpProcessor(this);
+                processor.process(socket);
             }
 
         } catch (UnknownHostException e) {
