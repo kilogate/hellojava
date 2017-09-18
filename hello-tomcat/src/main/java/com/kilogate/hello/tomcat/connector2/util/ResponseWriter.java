@@ -4,12 +4,12 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 
 /**
- * A subclass of PrintWriter that automatically flushes each time
- * a print() or println() method is called.
- */
-
+ * ResponseWriter
+ *
+ * @author fengquanwei
+ * @create 12/09/2017 10:15 AM
+ **/
 public class ResponseWriter extends PrintWriter {
-
     public ResponseWriter(OutputStreamWriter writer) {
         super(writer);
     }

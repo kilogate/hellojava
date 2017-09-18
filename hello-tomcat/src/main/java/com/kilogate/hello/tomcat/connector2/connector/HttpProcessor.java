@@ -18,24 +18,12 @@ import java.net.Socket;
  **/
 public class HttpProcessor {
     // ------------------------------ 变量 ------------------------------
-    protected static StringManager stringManager = StringManager.getManager(HttpProcessor.class.getPackage().getName());
+    protected static StringManager stringManager = StringManager.getManager("com.kilogate.hello.tomcat");
 
-    // ------------------------------ 实例变量 ------------------------------
-    private HttpConnector connector = null;
     private HttpRequest request;
     private HttpResponse response;
 
-    private HttpRequestLine requestLine;
-
-    protected String method = null;
-    protected String queryString = null;
-
-    // ------------------------------ 构造函数 ------------------------------
-    public HttpProcessor(HttpConnector connector) {
-        this.connector = connector;
-    }
-
-    // ------------------------------ 公共方法 ------------------------------
+    // ------------------------------ 公有方法 ------------------------------
     public void process(Socket socket) {
         try (OutputStream output = socket.getOutputStream()) {
             SocketInputStream input = new SocketInputStream(socket.getInputStream(), 2048);
@@ -45,7 +33,9 @@ public class HttpProcessor {
             response.setRequest(request);
             response.setHeader("Server", "Kilogate Servlet Container");
 
-            parseRequest(input, output);
+            // 解析请求行
+            parseRequestLine(input);
+            // 解析头部
             parseHeaders(input);
 
             if (request.getRequestURI().startsWith("/servlet/")) {
@@ -65,11 +55,11 @@ public class HttpProcessor {
     }
 
     // ------------------------------ 私有方法 ------------------------------
-
     /**
      * 解析请求行
      */
-    private void parseRequest(SocketInputStream input, OutputStream output) throws IOException, ServletException {
+    private void parseRequestLine(SocketInputStream input) throws IOException, ServletException {
+        HttpRequestLine requestLine = new HttpRequestLine();
         input.readRequestLine(requestLine);
 
         // 方法
@@ -82,6 +72,9 @@ public class HttpProcessor {
         } else if (requestLine.uriEnd < 1) {
             throw new ServletException("Missing HTTP request URI");
         }
+
+        request.setMethod(method);
+        request.setProtocol(protocol);
 
         // URI 与 查询字符串
         String uri = null;
@@ -127,16 +120,10 @@ public class HttpProcessor {
 
         // 纠正 URI
         String normalizedUri = normalize(uri);
-
-        ((HttpRequest) request).setMethod(method);
-        request.setProtocol(protocol);
         if (normalizedUri != null) {
-            ((HttpRequest) request).setRequestURI(normalizedUri);
+            request.setRequestURI(normalizedUri);
         } else {
-            ((HttpRequest) request).setRequestURI(uri);
-        }
-
-        if (normalizedUri == null) {
+            request.setRequestURI(uri);
             throw new ServletException("Invalid URI: " + uri + "'");
         }
     }

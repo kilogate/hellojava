@@ -14,11 +14,6 @@ import java.net.UnknownHostException;
  **/
 public class HttpConnector implements Runnable {
     boolean stopped;
-    private String scheme = "http";
-
-    public String getScheme() {
-        return scheme;
-    }
 
     @Override
     public void run() {
@@ -26,17 +21,14 @@ public class HttpConnector implements Runnable {
             while (!stopped) {
                 Socket socket = serverSocket.accept();
 
-                HttpProcessor processor = new HttpProcessor(this);
+                HttpProcessor processor = new HttpProcessor();
                 processor.process(socket);
             }
-
         } catch (UnknownHostException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        ServerSocket serverSocket = null;
     }
 
     public void start() {

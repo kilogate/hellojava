@@ -7,13 +7,20 @@ package com.kilogate.hello.tomcat.connector2.util;
  * @create 12/09/2017 5:03 PM
  **/
 public class HttpHeader {
-    // -------------------------------------------------------------- Constants
+    // ------------------------------ 常量 ------------------------------
     public static final int INITIAL_NAME_SIZE = 32;
     public static final int INITIAL_VALUE_SIZE = 64;
     public static final int MAX_NAME_SIZE = 128;
     public static final int MAX_VALUE_SIZE = 4096;
 
-    // ----------------------------------------------------------- Constructors
+    // ------------------------------ 变量 ------------------------------
+    public char[] name;
+    public int nameEnd;
+    public char[] value;
+    public int valueEnd;
+    protected int hashCode = 0;
+
+    // ------------------------------ 构造函数 ------------------------------
     public HttpHeader() {
         this(new char[INITIAL_NAME_SIZE], 0, new char[INITIAL_VALUE_SIZE], 0);
     }
@@ -25,31 +32,15 @@ public class HttpHeader {
         this.valueEnd = valueEnd;
     }
 
-    public HttpHeader(String name, String value) {
-        this.name = name.toLowerCase().toCharArray();
-        this.nameEnd = name.length();
-        this.value = value.toCharArray();
-        this.valueEnd = value.length();
-    }
+    // ------------------------------ 公有方法 ------------------------------
 
-    // ----------------------------------------------------- Instance Variables
-    public char[] name;
-    public int nameEnd;
-    public char[] value;
-    public int valueEnd;
-    protected int hashCode = 0;
-
-    // --------------------------------------------------------- Public Methods
-
-    /**
-     * Release all object references, and initialize instance variables, in
-     * preparation for reuse of this object.
-     */
     public void recycle() {
         nameEnd = 0;
         valueEnd = 0;
         hashCode = 0;
     }
+
+    // TODO 下面一系列的 equals 方式是否可以删除掉
 
     /**
      * Test if the name of the header is equal to the given char array.
@@ -171,33 +162,5 @@ public class HttpHeader {
     public boolean headerEquals(HttpHeader header) {
         return (equals(header.name, header.nameEnd))
                 && (valueEquals(header.value, header.valueEnd));
-    }
-
-    // --------------------------------------------------------- Object Methods
-
-    /**
-     * Return hash code. The hash code of the HttpHeader object is the same
-     * as returned by new String(name, 0, nameEnd).hashCode().
-     */
-    public int hashCode() {
-        int h = hashCode;
-        if (h == 0) {
-            int off = 0;
-            char val[] = name;
-            int len = nameEnd;
-            for (int i = 0; i < len; i++)
-                h = 31 * h + val[off++];
-            hashCode = h;
-        }
-        return h;
-    }
-
-    public boolean equals(Object obj) {
-        if (obj instanceof String) {
-            return equals(((String) obj).toLowerCase());
-        } else if (obj instanceof HttpHeader) {
-            return equals((HttpHeader) obj);
-        }
-        return false;
     }
 }

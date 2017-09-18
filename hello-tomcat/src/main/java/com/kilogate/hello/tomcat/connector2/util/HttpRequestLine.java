@@ -7,7 +7,7 @@ package com.kilogate.hello.tomcat.connector2.util;
  * @create 12/09/2017 5:03 PM
  **/
 public class HttpRequestLine {
-    // -------------------------------------------------------------- Constants
+    // ------------------------------ 常量 ------------------------------
     public static final int INITIAL_METHOD_SIZE = 8;
     public static final int INITIAL_URI_SIZE = 64;
     public static final int INITIAL_PROTOCOL_SIZE = 8;
@@ -15,7 +15,15 @@ public class HttpRequestLine {
     public static final int MAX_URI_SIZE = 32768;
     public static final int MAX_PROTOCOL_SIZE = 1024;
 
-    // ----------------------------------------------------------- Constructors
+    // ------------------------------ 变量 ------------------------------
+    public char[] method;
+    public int methodEnd;
+    public char[] uri;
+    public int uriEnd;
+    public char[] protocol;
+    public int protocolEnd;
+
+    // ------------------------------ 构造函数 ------------------------------
     public HttpRequestLine() {
         this(new char[INITIAL_METHOD_SIZE], 0, new char[INITIAL_URI_SIZE], 0, new char[INITIAL_PROTOCOL_SIZE], 0);
     }
@@ -29,25 +37,12 @@ public class HttpRequestLine {
         this.protocolEnd = protocolEnd;
     }
 
-    // ----------------------------------------------------- Instance Variables
-    public char[] method;
-    public int methodEnd;
-    public char[] uri;
-    public int uriEnd;
-    public char[] protocol;
-    public int protocolEnd;
+    // ------------------------------ 公有方法 ------------------------------
 
-    // --------------------------------------------------------- Public Methods
-
-    /**
-     * Release all object references, and initialize instance variables, in
-     * preparation for reuse of this object.
-     */
     public void recycle() {
         methodEnd = 0;
         uriEnd = 0;
         protocolEnd = 0;
-
     }
 
     /**
@@ -81,6 +76,7 @@ public class HttpRequestLine {
     }
 
     /**
+     * TODO 这一系列 indexOf 是否可删除掉替换为 String.indexOf
      * Test if the value of the header includes the given string.
      */
     public int indexOf(String str) {
@@ -96,15 +92,6 @@ public class HttpRequestLine {
                 return i;
         }
         return -1;
-    }
-
-    // --------------------------------------------------------- Object Methods
-    public int hashCode() {
-        return 0;
-    }
-
-    public boolean equals(Object obj) {
-        return false;
     }
 
 }

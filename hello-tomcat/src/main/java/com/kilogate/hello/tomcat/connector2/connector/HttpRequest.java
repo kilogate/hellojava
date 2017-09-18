@@ -25,29 +25,39 @@ import java.util.*;
  * @create 12/09/2017 10:15 AM
  **/
 public class HttpRequest implements HttpServletRequest {
-    // ------------------------------ 实例变量 ------------------------------
-    protected HashMap attributes = new HashMap();
-    protected String authorization = null;
-    protected String contextPath = "";
-    protected ArrayList cookies = new ArrayList();
-    protected HashMap headers = new HashMap();
-    protected ParameterMap parameters = null;
-    protected boolean parsed = false; // Have the parameters for this request been parsed yet?
-    protected String pathInfo = null;
-    protected BufferedReader reader = null;
-    protected ServletInputStream stream = null;
-    protected static ArrayList empty = new ArrayList();
+    // ------------------------------ 变量 ------------------------------
+
     protected SimpleDateFormat formats[] = {
             new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US),
             new SimpleDateFormat("EEEEEE, dd-MMM-yy HH:mm:ss zzz", Locale.US),
             new SimpleDateFormat("EEE MMMM d HH:mm:ss yyyy", Locale.US)
     };
 
-    // ------------------------------ 属性 ------------------------------
+    // Socket InputStream
+    private InputStream input;
+
+    // 请求头 HashMap<String, ArrayList<String>>
+    protected HashMap headers = new HashMap();
+
+    // Cookies
+    protected ArrayList cookies = new ArrayList();
+
+    // 请求参数
+    protected ParameterMap parameters = null;
+    // 请求参数是否已解析
+    protected boolean parsed = false;
+
+    protected HashMap attributes = new HashMap();
+    protected String authorization = null;
+    protected String contextPath = "";
+    protected String pathInfo = null;
+    protected BufferedReader reader = null;
+    protected ServletInputStream stream = null;
+    protected static ArrayList empty = new ArrayList();
+
     private String contentType;
     private int contentLength;
     private InetAddress inetAddress;
-    private InputStream input;
     private String method;
     private String protocol;
     private String queryString;
@@ -60,11 +70,13 @@ public class HttpRequest implements HttpServletRequest {
     private boolean requestedSessionURL;
 
     // ------------------------------ 构造函数 ------------------------------
+
     public HttpRequest(InputStream input) {
         this.input = input;
     }
 
-    // ------------------------------ 公共方法 ------------------------------
+    // ------------------------------ 公有方法 ------------------------------
+
     public void addHeader(String name, String value) {
         name = name.toLowerCase();
         synchronized (headers) {
@@ -98,16 +110,19 @@ public class HttpRequest implements HttpServletRequest {
             results = new ParameterMap();
         }
 
+        // 先解锁
         results.setLocked(false);
 
+        // 获取字符编码方式
         String encoding = getCharacterEncoding();
-        if (encoding == null)
+        if (encoding == null){
             encoding = "ISO-8859-1";
+        }
 
         // 解析查询字符串中的参数
         String queryString = getQueryString();
         try {
-            RequestUtil.parseParameters(results, queryString, encoding);
+            RequestUtil.parseParameters(results, queryString.getBytes(encoding), encoding);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -213,7 +228,7 @@ public class HttpRequest implements HttpServletRequest {
 
     @Override
     public String getQueryString() {
-        return null;
+        return this.queryString;
     }
 
     @Override

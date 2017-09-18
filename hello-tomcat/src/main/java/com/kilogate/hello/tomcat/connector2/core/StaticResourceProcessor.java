@@ -1,7 +1,7 @@
 package com.kilogate.hello.tomcat.connector2.core;
 
-import com.kilogate.hello.tomcat.connector2.connector.HttpRequest;
 import com.kilogate.hello.tomcat.connector2.connector.HttpResponse;
+import com.kilogate.hello.tomcat.connector2.connector.HttpRequest;
 
 import java.io.IOException;
 

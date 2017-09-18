@@ -11,21 +11,11 @@ import java.util.Map;
  **/
 public class ParameterMap extends HashMap {
     // ------------------------------ 变量 ------------------------------
-    private static final StringManager stringManager = StringManager.getManager("com.kilogate.hello.tomcat.connector2.util");
+    private StringManager stringManager = StringManager.getManager("com.kilogate.hello.tomcat");
 
-    // ------------------------------ 属性 ------------------------------
     private boolean locked = false;
 
-    public boolean isLocked() {
-        return this.locked;
-    }
-
-    public void setLocked(boolean locked) {
-        this.locked = locked;
-    }
-
     // ------------------------------ 构造函数 ------------------------------
-
     public ParameterMap() {
         super();
     }
@@ -42,7 +32,10 @@ public class ParameterMap extends HashMap {
         super(initialCapacity);
     }
 
-    // ------------------------------ 公共方法 ------------------------------
+    // ------------------------------ 公有方法 ------------------------------
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
 
     public void clear() {
         if (locked) {
