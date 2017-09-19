@@ -55,6 +55,7 @@ public class HttpProcessor {
     }
 
     // ------------------------------ 私有方法 ------------------------------
+
     /**
      * 解析请求行
      */
@@ -181,17 +182,18 @@ public class HttpProcessor {
      * 纠正 URI（使得路径正常化）
      */
     private String normalize(String path) {
-        if (path == null)
+        if (path == null) {
             return null;
-        // Create a place for the normalized path
+        }
+
         String normalized = path;
 
         // Normalize "/%7E" and "/%7e" at the beginning to "/~"
-        if (normalized.startsWith("/%7E") || normalized.startsWith("/%7e"))
+        if (normalized.startsWith("/%7E") || normalized.startsWith("/%7e")) {
             normalized = "/~" + normalized.substring(4);
+        }
 
-        // Prevent encoding '%', '/', '.' and '\', which are special reserved
-        // characters
+        // Prevent encoding '%', '/', '.' and '\', which are special reserved characters
         if ((normalized.indexOf("%25") >= 0)
                 || (normalized.indexOf("%2F") >= 0)
                 || (normalized.indexOf("%2E") >= 0)
@@ -202,51 +204,55 @@ public class HttpProcessor {
             return null;
         }
 
-        if (normalized.equals("/."))
+        if (normalized.equals("/.")) {
             return "/";
+        }
 
         // Normalize the slashes and add leading slash if necessary
-        if (normalized.indexOf('\\') >= 0)
+        if (normalized.indexOf('\\') >= 0) {
             normalized = normalized.replace('\\', '/');
-        if (!normalized.startsWith("/"))
+        }
+        if (!normalized.startsWith("/")) {
             normalized = "/" + normalized;
+        }
 
         // Resolve occurrences of "//" in the normalized path
         while (true) {
             int index = normalized.indexOf("//");
-            if (index < 0)
+            if (index < 0) {
                 break;
-            normalized = normalized.substring(0, index) +
-                    normalized.substring(index + 1);
+            }
+            normalized = normalized.substring(0, index) + normalized.substring(index + 1);
         }
 
         // Resolve occurrences of "/./" in the normalized path
         while (true) {
             int index = normalized.indexOf("/./");
-            if (index < 0)
+            if (index < 0) {
                 break;
-            normalized = normalized.substring(0, index) +
-                    normalized.substring(index + 2);
+            }
+            normalized = normalized.substring(0, index) + normalized.substring(index + 2);
         }
 
         // Resolve occurrences of "/../" in the normalized path
         while (true) {
             int index = normalized.indexOf("/../");
-            if (index < 0)
+            if (index < 0) {
                 break;
-            if (index == 0)
+            }
+            if (index == 0) {
                 return (null);  // Trying to go outside our context
+            }
             int index2 = normalized.lastIndexOf('/', index - 1);
-            normalized = normalized.substring(0, index2) +
-                    normalized.substring(index + 3);
+            normalized = normalized.substring(0, index2) + normalized.substring(index + 3);
         }
 
-        // Declare occurrences of "/..." (three or more dots) to be invalid
-        // (on some Windows platforms this walks the directory tree!!!)
-        if (normalized.indexOf("/...") >= 0)
-            return (null);
+        // Declare occurrences of "/..." (three or more dots) to be invalid (on some Windows platforms this walks the directory tree!!!)
+        if (normalized.indexOf("/...") >= 0) {
+            return null;
+        }
 
         // Return the normalized path that we have completed
-        return (normalized);
+        return normalized;
     }
 }

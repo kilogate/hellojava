@@ -1,6 +1,8 @@
 package com.kilogate.hello.tomcat.connector2.connector;
 
+import com.kilogate.hello.tomcat.connector2.util.Enumerator;
 import com.kilogate.hello.tomcat.connector2.util.ParameterMap;
+import com.kilogate.hello.tomcat.connector2.util.RequestStream;
 import com.kilogate.hello.tomcat.connector2.util.RequestUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -8,13 +10,11 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.security.Principal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -25,13 +25,16 @@ import java.util.*;
  * @create 12/09/2017 10:15 AM
  **/
 public class HttpRequest implements HttpServletRequest {
-    // ------------------------------ 变量 ------------------------------
-
+    // ------------------------------ 变量 -----------------------------
+    // 日期格式化
     protected SimpleDateFormat formats[] = {
             new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US),
             new SimpleDateFormat("EEEEEE, dd-MMM-yy HH:mm:ss zzz", Locale.US),
             new SimpleDateFormat("EEE MMMM d HH:mm:ss yyyy", Locale.US)
     };
+
+    // 用于返回空集合使用，不要填充任何值
+    protected static ArrayList empty = new ArrayList();
 
     // Socket InputStream
     private InputStream input;
@@ -47,13 +50,9 @@ public class HttpRequest implements HttpServletRequest {
     // 请求参数是否已解析
     protected boolean parsed = false;
 
-    protected HashMap attributes = new HashMap();
-    protected String authorization = null;
-    protected String contextPath = "";
-    protected String pathInfo = null;
-    protected BufferedReader reader = null;
-    protected ServletInputStream stream = null;
-    protected static ArrayList empty = new ArrayList();
+    protected HashMap attributes = new HashMap(); // The request attributes for this request.
+    protected BufferedReader reader = null; // The reader that has been returned by <code>getReader</code>, if any.
+    protected ServletInputStream stream = null; // The ServletInputStream that has been returned by <code>getInputStream()</code>, if any.
 
     private String contentType;
     private int contentLength;
@@ -68,6 +67,10 @@ public class HttpRequest implements HttpServletRequest {
     private boolean requestedSessionCookie;
     private String requestedSessionId;
     private boolean requestedSessionURL;
+
+    private String contextPath = ""; // The context path for this request.
+    private String pathInfo = null;
+    private String authorization = null; // The authorization credentials sent with this Request.
 
     // ------------------------------ 构造函数 ------------------------------
 
@@ -95,6 +98,14 @@ public class HttpRequest implements HttpServletRequest {
         }
     }
 
+    public ServletInputStream createInputStream() throws IOException {
+        return (new RequestStream(this));
+    }
+
+    public InputStream getStream() {
+        return input;
+    }
+
     // ------------------------------ 受保护方法 ------------------------------
 
     /**
@@ -115,8 +126,8 @@ public class HttpRequest implements HttpServletRequest {
 
         // 获取字符编码方式
         String encoding = getCharacterEncoding();
-        if (encoding == null){
-            encoding = "ISO-8859-1";
+        if (encoding == null) {
+            encoding = "UTF-8";
         }
 
         // 解析查询字符串中的参数
@@ -172,63 +183,202 @@ public class HttpRequest implements HttpServletRequest {
 
     // ------------------------------ 覆盖方法 ------------------------------
     @Override
-    public String getAuthType() {
-        return null;
+    public Object getAttribute(String name) {
+        synchronized (attributes) {
+            return (attributes.get(name));
+        }
+    }
+
+    @Override
+    public Enumeration getAttributeNames() {
+        synchronized (attributes) {
+            return (new Enumerator(attributes.keySet()));
+        }
+    }
+
+    @Override
+    public int getContentLength() {
+        return contentLength;
+    }
+
+    @Override
+    public String getContentType() {
+        return contentType;
+    }
+
+    @Override
+    public String getContextPath() {
+        return contextPath;
     }
 
     @Override
     public Cookie[] getCookies() {
-        return new Cookie[0];
+        synchronized (cookies) {
+            if (cookies.size() < 1) {
+                return (null);
+            }
+            Cookie results[] = new Cookie[cookies.size()];
+            return ((Cookie[]) cookies.toArray(results));
+        }
     }
 
     @Override
-    public long getDateHeader(String s) {
-        return 0;
+    public long getDateHeader(String name) {
+        String value = getHeader(name);
+        if (value == null) {
+            return (-1L);
+        }
+
+        value += " ";
+        for (int i = 0; i < formats.length; i++) {
+            try {
+                Date date = formats[i].parse(value);
+                return (date.getTime());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        throw new IllegalArgumentException(value);
     }
 
     @Override
-    public String getHeader(String s) {
-        return null;
-    }
-
-    @Override
-    public Enumeration getHeaders(String s) {
-        return null;
+    public String getHeader(String name) {
+        name = name.toLowerCase();
+        synchronized (headers) {
+            ArrayList values = (ArrayList) headers.get(name);
+            if (values != null) {
+                return ((String) values.get(0));
+            } else {
+                return null;
+            }
+        }
     }
 
     @Override
     public Enumeration getHeaderNames() {
-        return null;
+        synchronized (headers) {
+            return (new Enumerator(headers.keySet()));
+        }
     }
 
     @Override
-    public int getIntHeader(String s) {
-        return 0;
+    public Enumeration getHeaders(String name) {
+        name = name.toLowerCase();
+        synchronized (headers) {
+            ArrayList values = (ArrayList) headers.get(name);
+            if (values != null) {
+                return (new Enumerator(values));
+            } else {
+                return (new Enumerator(empty));
+            }
+        }
+    }
+
+    @Override
+    public ServletInputStream getInputStream() throws IOException {
+        if (reader != null) {
+            throw new IllegalStateException("getInputStream has been called");
+        }
+
+        if (stream == null) {
+            stream = createInputStream();
+        }
+        return stream;
+    }
+
+    @Override
+    public int getIntHeader(String name) {
+        String value = getHeader(name);
+        if (value == null) {
+            return (-1);
+        } else {
+            return (Integer.parseInt(value));
+        }
     }
 
     @Override
     public String getMethod() {
-        return null;
+        return method;
+    }
+
+    @Override
+    public String getParameter(String name) {
+        parseParameters();
+        String values[] = (String[]) parameters.get(name);
+        if (values != null) {
+            return (values[0]);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public Map getParameterMap() {
+        parseParameters();
+        return this.parameters;
+    }
+
+    @Override
+    public Enumeration getParameterNames() {
+        parseParameters();
+        return new Enumerator(parameters.keySet());
+    }
+
+    @Override
+    public String[] getParameterValues(String name) {
+        parseParameters();
+        String values[] = (String[]) parameters.get(name);
+        if (values != null) {
+            return (values);
+        } else {
+            return null;
+        }
     }
 
     @Override
     public String getPathInfo() {
+        return this.pathInfo;
+    }
+
+    @Override
+    public String getProtocol() {
+        return this.protocol;
+    }
+
+    @Override
+    public String getQueryString() {
+        return this.queryString;
+    }
+
+    @Override
+    public BufferedReader getReader() throws IOException {
+        if (stream != null) {
+            throw new IllegalStateException("getInputStream has been called.");
+        }
+        if (reader == null) {
+            String encoding = getCharacterEncoding();
+            if (encoding == null) {
+                encoding = "UTF-8";
+            }
+            InputStreamReader isr = new InputStreamReader(createInputStream(), encoding);
+            reader = new BufferedReader(isr);
+        }
+        return reader;
+    }
+
+    @Override
+    public String getRequestURI() {
+        return this.requestURI;
+    }
+
+    @Override
+    public String getAuthType() {
         return null;
     }
 
     @Override
     public String getPathTranslated() {
         return null;
-    }
-
-    @Override
-    public String getContextPath() {
-        return null;
-    }
-
-    @Override
-    public String getQueryString() {
-        return this.queryString;
     }
 
     @Override
@@ -248,11 +398,6 @@ public class HttpRequest implements HttpServletRequest {
 
     @Override
     public String getRequestedSessionId() {
-        return null;
-    }
-
-    @Override
-    public String getRequestURI() {
         return null;
     }
 
@@ -288,22 +433,12 @@ public class HttpRequest implements HttpServletRequest {
 
     @Override
     public boolean isRequestedSessionIdFromURL() {
-        return false;
+        return isRequestedSessionIdFromUrl();
     }
 
     @Override
     public boolean isRequestedSessionIdFromUrl() {
         return false;
-    }
-
-    @Override
-    public Object getAttribute(String s) {
-        return null;
-    }
-
-    @Override
-    public Enumeration getAttributeNames() {
-        return null;
     }
 
     @Override
@@ -314,46 +449,6 @@ public class HttpRequest implements HttpServletRequest {
     @Override
     public void setCharacterEncoding(String s) throws UnsupportedEncodingException {
 
-    }
-
-    @Override
-    public int getContentLength() {
-        return 0;
-    }
-
-    @Override
-    public String getContentType() {
-        return null;
-    }
-
-    @Override
-    public ServletInputStream getInputStream() throws IOException {
-        return null;
-    }
-
-    @Override
-    public String getParameter(String s) {
-        return null;
-    }
-
-    @Override
-    public Enumeration getParameterNames() {
-        return null;
-    }
-
-    @Override
-    public String[] getParameterValues(String s) {
-        return new String[0];
-    }
-
-    @Override
-    public Map getParameterMap() {
-        return null;
-    }
-
-    @Override
-    public String getProtocol() {
-        return null;
     }
 
     @Override
@@ -369,11 +464,6 @@ public class HttpRequest implements HttpServletRequest {
     @Override
     public int getServerPort() {
         return 0;
-    }
-
-    @Override
-    public BufferedReader getReader() throws IOException {
-        return null;
     }
 
     @Override
@@ -441,7 +531,8 @@ public class HttpRequest implements HttpServletRequest {
         return 0;
     }
 
-    // ------------------------------ getter and setter ------------------------------
+    // ------------------------------ 属性方法 ------------------------------
+
     public void setContentType(String contentType) {
         this.contentType = contentType;
     }
@@ -450,20 +541,8 @@ public class HttpRequest implements HttpServletRequest {
         this.contentLength = contentLength;
     }
 
-    public InetAddress getInetAddress() {
-        return inetAddress;
-    }
-
     public void setInetAddress(InetAddress inetAddress) {
         this.inetAddress = inetAddress;
-    }
-
-    public InputStream getInput() {
-        return input;
-    }
-
-    public void setInput(InputStream input) {
-        this.input = input;
     }
 
     public void setMethod(String method) {
@@ -490,16 +569,8 @@ public class HttpRequest implements HttpServletRequest {
         this.serverPort = serverPort;
     }
 
-    public Socket getSocket() {
-        return socket;
-    }
-
     public void setSocket(Socket socket) {
         this.socket = socket;
-    }
-
-    public boolean isRequestedSessionCookie() {
-        return requestedSessionCookie;
     }
 
     public void setRequestedSessionCookie(boolean requestedSessionCookie) {
@@ -510,11 +581,23 @@ public class HttpRequest implements HttpServletRequest {
         this.requestedSessionId = requestedSessionId;
     }
 
-    public boolean isRequestedSessionURL() {
-        return requestedSessionURL;
-    }
-
     public void setRequestedSessionURL(boolean requestedSessionURL) {
         this.requestedSessionURL = requestedSessionURL;
+    }
+
+    public void setContextPath(String contextPath) {
+        if (contextPath == null) {
+            this.contextPath = "";
+        } else {
+            this.contextPath = contextPath;
+        }
+    }
+
+    public void setPathInfo(String pathInfo) {
+        this.pathInfo = pathInfo;
+    }
+
+    public void setAuthorization(String authorization) {
+        this.authorization = authorization;
     }
 }

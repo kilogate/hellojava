@@ -20,13 +20,17 @@ import java.util.Locale;
  * @create 12/09/2017 10:16 AM
  **/
 public class HttpResponse implements HttpServletResponse {
-    // ------------------------------ 常量 ------------------------------
+    // ------------------------------ 变量 ------------------------------
     private static final int BUFFER_SIZE = 1024;
 
-    // ------------------------------ 变量 ------------------------------
+    protected final SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US);
+
     HttpRequest request;
     OutputStream output;
     PrintWriter writer;
+
+    protected ArrayList cookies = new ArrayList();
+    protected HashMap headers = new HashMap();
 
     protected byte[] buffer = new byte[BUFFER_SIZE];
     protected int bufferCount = 0;
@@ -35,9 +39,6 @@ public class HttpResponse implements HttpServletResponse {
     protected int contentLength = -1;
     protected String contentType = null;
     protected String encoding = null;
-    protected ArrayList cookies = new ArrayList();
-    protected HashMap headers = new HashMap();
-    protected final SimpleDateFormat format = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.US);
     protected String message = getStatusMessage(HttpServletResponse.SC_OK);
     protected int status = HttpServletResponse.SC_OK;
 
@@ -86,10 +87,6 @@ public class HttpResponse implements HttpServletResponse {
         }
     }
 
-    public void setRequest(HttpRequest request) {
-        this.request = request;
-    }
-
     public void write(int b) throws IOException {
         if (bufferCount >= buffer.length) {
             flushBuffer();
@@ -124,6 +121,22 @@ public class HttpResponse implements HttpServletResponse {
         // Write the remainder (guaranteed to fit in the buffer)
         if (leftoverLen > 0)
             write(b, off + leftoverStart, leftoverLen);
+    }
+
+    public void setRequest(HttpRequest request) {
+        this.request = request;
+    }
+
+    public int getContentLength() {
+        return contentLength;
+    }
+
+    protected String getProtocol() {
+        return request.getProtocol();
+    }
+
+    public OutputStream getStream() {
+        return this.output;
     }
 
     // ------------------------------ 私有方法 ------------------------------
@@ -226,8 +239,118 @@ public class HttpResponse implements HttpServletResponse {
 
     // ------------------------------ 覆盖方法 ------------------------------
     @Override
-    public void addCookie(Cookie cookie) {
+    public String getContentType() {
+        return this.contentType;
+    }
 
+    @Override
+    public void addCookie(Cookie cookie) {
+        if (isCommitted()) {
+            return;
+        }
+        synchronized (cookies) {
+            cookies.add(cookie);
+        }
+    }
+
+    @Override
+    public void setHeader(String name, String value) {
+        if (isCommitted()) {
+            return;
+        }
+        ArrayList values = new ArrayList();
+        values.add(value);
+        synchronized (headers) {
+            headers.put(name, values);
+        }
+        String match = name.toLowerCase();
+        if (match.equals("content-length")) {
+            int contentLength = -1;
+            try {
+                contentLength = Integer.parseInt(value);
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+            if (contentLength >= 0) {
+                setContentLength(contentLength);
+            }
+        } else if (match.equals("content-type")) {
+            setContentType(value);
+        }
+    }
+
+    @Override
+    public void addHeader(String name, String value) {
+        if (isCommitted()) {
+            return;
+        }
+        synchronized (headers) {
+            ArrayList values = (ArrayList) headers.get(name);
+            if (values == null) {
+                values = new ArrayList();
+                headers.put(name, values);
+            }
+            values.add(value);
+        }
+    }
+
+    @Override
+    public void flushBuffer() throws IOException {
+        if (bufferCount > 0) {
+            try {
+                output.write(buffer, 0, bufferCount);
+            } finally {
+                bufferCount = 0;
+            }
+        }
+    }
+
+    @Override
+    public String getCharacterEncoding() {
+        if (encoding == null) {
+            return ("UTF-8");
+        } else {
+            return (encoding);
+        }
+    }
+
+    @Override
+    public PrintWriter getWriter() throws IOException {
+        ResponseStream newStream = new ResponseStream(this);
+        newStream.setCommit(false);
+        OutputStreamWriter osr = new OutputStreamWriter(newStream, getCharacterEncoding());
+        writer = new ResponseWriter(osr);
+        return writer;
+    }
+
+    @Override
+    public boolean isCommitted() {
+        return this.committed;
+    }
+
+    @Override
+    public void setContentLength(int length) {
+        if (isCommitted()) {
+            return;
+        }
+        this.contentLength = length;
+    }
+
+    @Override
+    public void setLocale(Locale locale) {
+        if (isCommitted()) {
+            return;
+        }
+        String language = locale.getLanguage();
+        if ((language != null) && (language.length() > 0)) {
+            String country = locale.getCountry();
+            StringBuffer value = new StringBuffer(language);
+            if ((country != null) && (country.length() > 0)) {
+                value.append('-');
+                value.append(country);
+            }
+            setHeader("Content-Language", value.toString());
+        }
     }
 
     @Override
@@ -281,37 +404,6 @@ public class HttpResponse implements HttpServletResponse {
     }
 
     @Override
-    public void setHeader(String name, String value) {
-        if (isCommitted()) {
-            return;
-        }
-        ArrayList values = new ArrayList();
-        values.add(value);
-        synchronized (headers) {
-            headers.put(name, values);
-        }
-        String match = name.toLowerCase();
-        if (match.equals("content-length")) {
-            int contentLength = -1;
-            try {
-                contentLength = Integer.parseInt(value);
-            } catch (NumberFormatException e) {
-                e.printStackTrace();
-            }
-            if (contentLength >= 0) {
-                setContentLength(contentLength);
-            }
-        } else if (match.equals("content-type")) {
-            setContentType(value);
-        }
-    }
-
-    @Override
-    public void addHeader(String s, String s1) {
-
-    }
-
-    @Override
     public void setIntHeader(String s, int i) {
 
     }
@@ -332,36 +424,12 @@ public class HttpResponse implements HttpServletResponse {
     }
 
     @Override
-    public String getCharacterEncoding() {
-        return null;
-    }
-
-    @Override
-    public String getContentType() {
-        return null;
-    }
-
-    @Override
     public ServletOutputStream getOutputStream() throws IOException {
         return null;
     }
 
     @Override
-    public PrintWriter getWriter() throws IOException {
-        ResponseStream newStream = new ResponseStream(this);
-        newStream.setCommit(false);
-        OutputStreamWriter osr = new OutputStreamWriter(newStream, getCharacterEncoding());
-        writer = new ResponseWriter(osr);
-        return writer;
-    }
-
-    @Override
     public void setCharacterEncoding(String s) {
-
-    }
-
-    @Override
-    public void setContentLength(int i) {
 
     }
 
@@ -381,27 +449,12 @@ public class HttpResponse implements HttpServletResponse {
     }
 
     @Override
-    public void flushBuffer() throws IOException {
-
-    }
-
-    @Override
     public void resetBuffer() {
 
     }
 
     @Override
-    public boolean isCommitted() {
-        return false;
-    }
-
-    @Override
     public void reset() {
-
-    }
-
-    @Override
-    public void setLocale(Locale locale) {
 
     }
 
