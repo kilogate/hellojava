@@ -132,10 +132,12 @@ public class HttpRequest implements HttpServletRequest {
 
         // 解析查询字符串中的参数
         String queryString = getQueryString();
-        try {
-            RequestUtil.parseParameters(results, queryString.getBytes(encoding), encoding);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+        if (queryString != null && !"".equals(queryString)) {
+            try {
+                RequestUtil.parseParameters(results, queryString.getBytes(encoding), encoding);
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
         }
 
         // 解析请求主体中的参数

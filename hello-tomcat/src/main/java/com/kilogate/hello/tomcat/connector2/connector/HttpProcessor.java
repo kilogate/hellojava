@@ -38,6 +38,8 @@ public class HttpProcessor {
             // 解析头部
             parseHeaders(input);
 
+            System.out.println("收到请求：" + request.getRequestURI());
+
             if (request.getRequestURI().startsWith("/servlet/")) {
                 ServletProcessor processor = new ServletProcessor();
                 processor.process(request, response);
