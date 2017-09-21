@@ -3,6 +3,7 @@ package com.kilogate.hello.tomcat.connector2.connector;
 import com.kilogate.hello.tomcat.connector2.core.ServletProcessor;
 import com.kilogate.hello.tomcat.connector2.core.StaticResourceProcessor;
 import com.kilogate.hello.tomcat.connector2.util.*;
+import com.kilogate.hello.tomcat.constant.Constants;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
@@ -18,7 +19,7 @@ import java.net.Socket;
  **/
 public class HttpProcessor {
     // ------------------------------ 变量 ------------------------------
-    protected static StringManager stringManager = StringManager.getManager("com.kilogate.hello.tomcat");
+    protected static StringManager stringManager = StringManager.getManager(Constants.PACKAGE);
 
     private HttpRequest request;
     private HttpResponse response;
