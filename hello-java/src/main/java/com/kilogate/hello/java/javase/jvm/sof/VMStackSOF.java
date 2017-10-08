@@ -1,7 +1,7 @@
 package com.kilogate.hello.java.javase.jvm.sof;
 
 /**
- * 虚拟机栈栈溢出
+ * 虚拟机栈栈深度溢出
  * VM Args: -Xss128k
  *
  * @author fengquanwei
