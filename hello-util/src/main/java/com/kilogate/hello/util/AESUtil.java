@@ -16,6 +16,7 @@ import java.util.Arrays;
  **/
 public class AESUtil {
     // AES 密钥长度必须是 128，192 或 256 位（但是美国软件出口限制不能使用大于 128 位的密钥）
+    // MD5 摘要长度正好 128 位
     private static final int KEY_SIZE = 128;
 
     /**
