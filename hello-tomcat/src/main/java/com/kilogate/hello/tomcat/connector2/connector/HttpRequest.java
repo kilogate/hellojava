@@ -5,11 +5,8 @@ import com.kilogate.hello.tomcat.connector2.util.ParameterMap;
 import com.kilogate.hello.tomcat.connector2.util.RequestStream;
 import com.kilogate.hello.tomcat.connector2.util.RequestUtil;
 
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletInputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.*;
+import javax.servlet.http.*;
 import java.io.*;
 import java.net.InetAddress;
 import java.net.Socket;
@@ -444,6 +441,31 @@ public class HttpRequest implements HttpServletRequest {
     }
 
     @Override
+    public boolean authenticate(HttpServletResponse httpServletResponse) throws IOException, ServletException {
+        return false;
+    }
+
+    @Override
+    public void login(String s, String s1) throws ServletException {
+
+    }
+
+    @Override
+    public void logout() throws ServletException {
+
+    }
+
+    @Override
+    public Collection<Part> getParts() throws IOException, ServletException {
+        return null;
+    }
+
+    @Override
+    public Part getPart(String s) throws IOException, ServletException {
+        return null;
+    }
+
+    @Override
     public String getCharacterEncoding() {
         return null;
     }
@@ -533,6 +555,41 @@ public class HttpRequest implements HttpServletRequest {
         return 0;
     }
 
+    @Override
+    public ServletContext getServletContext() {
+        return null;
+    }
+
+    @Override
+    public AsyncContext startAsync() throws IllegalStateException {
+        return null;
+    }
+
+    @Override
+    public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse) throws IllegalStateException {
+        return null;
+    }
+
+    @Override
+    public boolean isAsyncStarted() {
+        return false;
+    }
+
+    @Override
+    public boolean isAsyncSupported() {
+        return false;
+    }
+
+    @Override
+    public AsyncContext getAsyncContext() {
+        return null;
+    }
+
+    @Override
+    public DispatcherType getDispatcherType() {
+        return null;
+    }
+
     // ------------------------------ 属性方法 ------------------------------
 
     public void setContentType(String contentType) {
@@ -602,4 +659,6 @@ public class HttpRequest implements HttpServletRequest {
     public void setAuthorization(String authorization) {
         this.authorization = authorization;
     }
+
+
 }

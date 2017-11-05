@@ -5,11 +5,10 @@
         <groupId>com.kilogate</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>hello-tomcat</artifactId>
+    <artifactId>hello-servlet</artifactId>
     <packaging>war</packaging>
-    <name>hello-tomcat Maven Webapp</name>
+    <name>hello-servlet Maven Webapp</name>
 
     <dependencies>
         <dependency>
@@ -27,6 +26,6 @@
     </dependencies>
 
     <build>
-        <finalName>hello-tomcat</finalName>
+        <finalName>hello-servlet</finalName>
     </build>
 </project>
