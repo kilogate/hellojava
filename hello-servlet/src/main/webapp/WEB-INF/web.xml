@@ -4,4 +4,39 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
          version="3.0">
 
+    <!--<filter>-->
+        <!--<filter-name>Z</filter-name>-->
+        <!--<filter-class>com.kilogate.hello.servlet.filter.ZZZFilter</filter-class>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>Z</filter-name>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
+
+    <!--<filter>-->
+        <!--<filter-name>L</filter-name>-->
+        <!--<filter-class>com.kilogate.hello.servlet.filter.LoggingFilter</filter-class>-->
+        <!--<init-param>-->
+            <!--<param-name>logFileName</param-name>-->
+            <!--<param-value>log.txt</param-value>-->
+        <!--</init-param>-->
+        <!--<init-param>-->
+            <!--<param-name>prefix</param-name>-->
+            <!--<param-value>URI:</param-value>-->
+        <!--</init-param>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>L</filter-name>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
+
+    <!--<filter>-->
+        <!--<filter-name>A</filter-name>-->
+        <!--<filter-class>com.kilogate.hello.servlet.filter.AAAFilter</filter-class>-->
+    <!--</filter>-->
+    <!--<filter-mapping>-->
+        <!--<filter-name>A</filter-name>-->
+        <!--<url-pattern>/*</url-pattern>-->
+    <!--</filter-mapping>-->
+
 </web-app>
