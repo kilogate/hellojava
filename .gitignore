@@ -1,4 +1,13 @@
+# IntelliJ IDEA
+.idea/
 *.iml
-/.idea/
-/out/
+
+# Maven
 target/
+
+# Eclipse
+.settings/
+.metadata/
+Servers/
+.classpath
+.project
