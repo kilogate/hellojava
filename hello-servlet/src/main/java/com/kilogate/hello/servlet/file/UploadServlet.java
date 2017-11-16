@@ -19,26 +19,10 @@ import java.io.PrintWriter;
 @WebServlet("/upload")
 @MultipartConfig
 public class UploadServlet extends HttpServlet {
-    private String getFilename(Part part) {
-        if (part != null) {
-            String header = part.getHeader("content-disposition");
-            if (header != null) {
-                String[] elements = header.split(";");
-                for (String element : elements) {
-                    if (element.trim().startsWith("filename")) {
-                        return element.substring(element.indexOf('=') + 1).trim().replace("\"", "");
-                    }
-                }
-            }
-        }
-
-        return null;
-    }
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Part part = request.getPart("uploadFile");
-        String fileName = getFilename(part);
+        String fileName = UploadUtil.getFilename(part);
         if (fileName != null) {
             String path = getServletContext().getRealPath("/WEB-INF") + "/" + fileName;
             part.write(path);
