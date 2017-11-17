@@ -1,4 +1,4 @@
-package com.kilogate.hello.servlet.file;
+package com.kilogate.hello.servlet.file.upload;
 
 import javax.servlet.http.Part;
 

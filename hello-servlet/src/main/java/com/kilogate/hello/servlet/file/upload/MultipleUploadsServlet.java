@@ -1,4 +1,4 @@
-package com.kilogate.hello.servlet.file;
+package com.kilogate.hello.servlet.file.upload;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
@@ -13,6 +13,7 @@ import java.util.Collection;
 
 /**
  * 多文件上传
+ * localhost:8081/multiple_uploads.jsp
  *
  * @author fengquanwei
  * @create 2017/11/13 23:33
