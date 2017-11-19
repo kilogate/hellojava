@@ -5,38 +5,81 @@
          version="3.0">
 
     <!--<filter>-->
-        <!--<filter-name>Z</filter-name>-->
-        <!--<filter-class>com.kilogate.hello.servlet.filter.ZZZFilter</filter-class>-->
+    <!--<filter-name>Z</filter-name>-->
+    <!--<filter-class>com.kilogate.hello.servlet.filter.ZZZFilter</filter-class>-->
     <!--</filter>-->
     <!--<filter-mapping>-->
-        <!--<filter-name>Z</filter-name>-->
-        <!--<url-pattern>/*</url-pattern>-->
+    <!--<filter-name>Z</filter-name>-->
+    <!--<url-pattern>/*</url-pattern>-->
     <!--</filter-mapping>-->
 
     <!--<filter>-->
-        <!--<filter-name>L</filter-name>-->
-        <!--<filter-class>com.kilogate.hello.servlet.filter.LoggingFilter</filter-class>-->
-        <!--<init-param>-->
-            <!--<param-name>logFileName</param-name>-->
-            <!--<param-value>log.txt</param-value>-->
-        <!--</init-param>-->
-        <!--<init-param>-->
-            <!--<param-name>prefix</param-name>-->
-            <!--<param-value>URI:</param-value>-->
-        <!--</init-param>-->
+    <!--<filter-name>L</filter-name>-->
+    <!--<filter-class>com.kilogate.hello.servlet.filter.LoggingFilter</filter-class>-->
+    <!--<init-param>-->
+    <!--<param-name>logFileName</param-name>-->
+    <!--<param-value>log.txt</param-value>-->
+    <!--</init-param>-->
+    <!--<init-param>-->
+    <!--<param-name>prefix</param-name>-->
+    <!--<param-value>URI:</param-value>-->
+    <!--</init-param>-->
     <!--</filter>-->
     <!--<filter-mapping>-->
-        <!--<filter-name>L</filter-name>-->
-        <!--<url-pattern>/*</url-pattern>-->
+    <!--<filter-name>L</filter-name>-->
+    <!--<url-pattern>/*</url-pattern>-->
     <!--</filter-mapping>-->
 
     <!--<filter>-->
-        <!--<filter-name>A</filter-name>-->
-        <!--<filter-class>com.kilogate.hello.servlet.filter.AAAFilter</filter-class>-->
+    <!--<filter-name>A</filter-name>-->
+    <!--<filter-class>com.kilogate.hello.servlet.filter.AAAFilter</filter-class>-->
     <!--</filter>-->
     <!--<filter-mapping>-->
-        <!--<filter-name>A</filter-name>-->
-        <!--<url-pattern>/*</url-pattern>-->
+    <!--<filter-name>A</filter-name>-->
+    <!--<url-pattern>/*</url-pattern>-->
     <!--</filter-mapping>-->
+
+    <!-- 安全性约束：避免 JSP 页面被直接访问 -->
+    <!--<security-constraint>-->
+        <!--<web-resource-collection>-->
+            <!--<web-resource-name>JSP Pages</web-resource-name>-->
+            <!--<url-pattern>*.jsp</url-pattern>-->
+        <!--</web-resource-collection>-->
+        <!--&lt;!&ndash; 所有角色都不能访问 &ndash;&gt;-->
+        <!--<auth-constraint/>-->
+    <!--</security-constraint>-->
+
+    <!--<security-constraint>-->
+        <!--<web-resource-collection>-->
+            <!--<web-resource-name>Servlet1</web-resource-name>-->
+            <!--<url-pattern>/servlet1</url-pattern>-->
+        <!--</web-resource-collection>-->
+        <!--&lt;!&ndash; member 角色和 manager 角色可以访问 &ndash;&gt;-->
+        <!--<auth-constraint>-->
+            <!--<role-name>member</role-name>-->
+            <!--<role-name>manager</role-name>-->
+        <!--</auth-constraint>-->
+    <!--</security-constraint>-->
+
+    <!-- 基本验证 -->
+    <!--<login-config>-->
+        <!--<auth-method>BASIC</auth-method>-->
+        <!--<realm-name>Members Only</realm-name>-->
+    <!--</login-config>-->
+
+    <!-- 摘要验证 -->
+    <!--<login-config>-->
+        <!--<auth-method>DIGEST</auth-method>-->
+        <!--<realm-name>Members Only</realm-name>-->
+    <!--</login-config>-->
+
+    <!-- 表单验证 -->
+    <!--<login-config>-->
+        <!--<auth-method>FORM</auth-method>-->
+        <!--<form-login-config>-->
+            <!--<form-login-page>/login.jsp</form-login-page>-->
+            <!--<form-error-page>/login_fail.jsp</form-error-page>-->
+        <!--</form-login-config>-->
+    <!--</login-config>-->
 
 </web-app>

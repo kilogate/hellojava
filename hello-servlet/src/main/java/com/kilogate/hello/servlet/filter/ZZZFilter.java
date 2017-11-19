@@ -10,7 +10,7 @@ import java.io.IOException;
  * @author fengquanwei
  * @create 2017/11/5 21:21
  **/
-@WebFilter(filterName = "ZZZ", urlPatterns = "/*")
+@WebFilter(filterName = "ZZZ", urlPatterns = "/*", asyncSupported = true) // 配合测试异步处理
 public class ZZZFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

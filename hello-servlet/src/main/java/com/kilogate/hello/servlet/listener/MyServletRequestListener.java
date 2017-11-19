@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author fengquanwei
  * @create 2017/11/5 14:59
  **/
-@WebListener
+@WebListener // 这块会影响测试安全验证时的表单验证
 public class MyServletRequestListener implements ServletRequestListener {
     @Override
     public void requestInitialized(ServletRequestEvent servletRequestEvent) {

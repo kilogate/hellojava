@@ -16,12 +16,11 @@ import java.util.Date;
  * @author fengquanwei
  * @create 2017/11/5 21:07
  **/
-@WebFilter(filterName = "LoggingFilter",
-        urlPatterns = "/*",
+@WebFilter(filterName = "LoggingFilter", urlPatterns = "/*",
         initParams = {
                 @WebInitParam(name = "logFileName", value = "log.txt"),
                 @WebInitParam(name = "prefix", value = "URI: "),
-        })
+        }, asyncSupported = true) // 配合测试异步处理
 public class LoggingFilter implements Filter {
     private PrintWriter logger;
     private String prefix;
